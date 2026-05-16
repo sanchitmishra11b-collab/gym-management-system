@@ -4,58 +4,61 @@
     {% load static %}
     <title>{% block title %}GymOS{% endblock %}</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
+        /* ══ ROOT ══ */
         :root {
-            --black:    #080808;
-            --surface:  #111111;
-            --card:     #181818;
-            --border:   #242424;
-            --orange:   #ff6b00;
-            --orange2:  #ff9500;
-            --red:      #ff3a3a;
-            --green:    #22c55e;
-            --text:     #f0f0f0;
-            --muted:    #555;
-            --muted2:   #888;
+            --black:   #080808;
+            --surface: #111111;
+            --card:    #181818;
+            --border:  #242424;
+            --orange:  #ff6b00;
+            --orange2: #ff9500;
+            --red:     #ff3a3a;
+            --green:   #22c55e;
+            --text:    #f0f0f0;
+            --muted:   #555;
+            --muted2:  #888;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { -webkit-text-size-adjust: 100%; }
 
         body {
             background: var(--black);
             color: var(--text);
             font-family: 'DM Sans', sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* ── SCROLLBAR ── */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--black); }
         ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
 
-        /* ── NAVBAR ── */
+        /* ══ NAVBAR ══ */
         .gymos-nav {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
-            padding: 0;
             position: sticky;
             top: 0;
             z-index: 1000;
+            width: 100%;
         }
 
-        .gymos-nav .container-fluid {
-            padding: 0 28px;
+        .nav-inner {
             display: flex;
-            align-items: stretch;
-            height: 62px;
+            align-items: center;
+            height: 60px;
+            padding: 0 20px;
             gap: 0;
         }
 
@@ -63,121 +66,110 @@
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
             text-decoration: none;
-            padding-right: 32px;
-            border-right: 1px solid var(--border);
             flex-shrink: 0;
+            margin-right: 20px;
         }
         .brand-icon {
-            width: 36px; height: 36px;
+            width: 34px; height: 34px;
             background: var(--orange);
             border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
         }
         .brand-text {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 24px;
+            font-size: 22px;
             letter-spacing: 2px;
             color: var(--text);
             line-height: 1;
         }
         .brand-text span { color: var(--orange); }
 
-        /* nav items */
-        .nav-items {
+        /* desktop nav links */
+        .nav-links {
             display: flex;
             align-items: stretch;
             list-style: none;
+            height: 60px;
             flex: 1;
-            padding: 0 16px;
             gap: 0;
         }
 
-        .nav-items li { display: flex; align-items: stretch; }
+        .nav-links li { display: flex; align-items: stretch; }
 
-        .nav-items .nav-link {
+        .nav-links .nav-link {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 0 16px;
+            gap: 5px;
+            padding: 0 13px;
             color: var(--muted2) !important;
             font-size: 13px;
             font-weight: 500;
-            letter-spacing: 0.3px;
             text-decoration: none;
             border-bottom: 2px solid transparent;
-            transition: color .2s, border-color .2s;
             white-space: nowrap;
+            transition: color .2s, border-color .2s;
         }
-        .nav-items .nav-link:hover,
-        .nav-items .nav-link.active {
+        .nav-links .nav-link:hover,
+        .nav-links .nav-link.active {
             color: var(--text) !important;
             border-bottom-color: var(--orange);
         }
-
-        .nav-items .nav-link .nav-icon { font-size: 15px; opacity: .7; }
+        .nav-links .nav-icon { font-size: 14px; }
 
         /* dropdown */
-        .nav-items .dropdown-menu {
+        .nav-links .dropdown-menu {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 6px;
+            min-width: 175px;
+            box-shadow: 0 8px 32px rgba(0,0,0,.6);
             margin-top: 0;
-            min-width: 180px;
-            box-shadow: 0 8px 32px rgba(0,0,0,.5);
         }
-        .nav-items .dropdown-item {
+        .nav-links .dropdown-item {
             color: var(--muted2);
             font-size: 13px;
-            padding: 9px 14px;
+            padding: 9px 12px;
             border-radius: 6px;
             transition: background .15s, color .15s;
         }
-        .nav-items .dropdown-item:hover {
+        .nav-links .dropdown-item:hover {
             background: rgba(255,107,0,.1);
             color: var(--orange);
         }
-        .nav-items .dropdown-item .di-icon { margin-right: 8px; opacity: .6; }
 
         /* approval badge */
-        .approval-link {
-            color: var(--orange) !important;
-            font-weight: 600 !important;
-        }
-        .approval-badge {
+        .approval-link { color: var(--orange) !important; font-weight: 600 !important; }
+        .ap-badge-dot {
             background: var(--orange);
             color: #000;
             font-size: 10px;
             font-weight: 800;
             padding: 1px 6px;
             border-radius: 20px;
-            margin-left: 4px;
-            animation: badgePulse 2s infinite;
+            margin-left: 3px;
+            animation: apBlink 2s infinite;
         }
-        @keyframes badgePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .6; }
-        }
+        @keyframes apBlink { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-        /* right side */
-        .nav-right {
+        /* user button */
+        .nav-user-area {
+            margin-left: auto;
             display: flex;
             align-items: center;
-            gap: 0;
             border-left: 1px solid var(--border);
-            margin-left: auto;
             padding-left: 0;
+            flex-shrink: 0;
         }
-
         .user-btn {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 0 20px;
-            height: 62px;
+            gap: 8px;
+            padding: 0 16px;
+            height: 60px;
             background: none;
             border: none;
             color: var(--text);
@@ -185,82 +177,115 @@
             font-family: 'DM Sans', sans-serif;
             font-size: 13px;
             font-weight: 500;
-            transition: background .2s;
         }
         .user-btn:hover { background: rgba(255,255,255,.04); }
-
         .user-avatar {
-            width: 32px; height: 32px;
+            width: 30px; height: 30px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--orange), var(--orange2));
             display: flex; align-items: center; justify-content: center;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 15px;
+            font-size: 14px;
             color: #000;
             flex-shrink: 0;
         }
+        .user-name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         .user-dropdown {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 6px;
-            min-width: 200px;
-            box-shadow: 0 8px 32px rgba(0,0,0,.5);
+            min-width: 190px;
+            box-shadow: 0 8px 32px rgba(0,0,0,.6);
             right: 0 !important;
             left: auto !important;
         }
         .user-dropdown .dropdown-header {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--muted);
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            padding: 8px 14px 6px;
+            padding: 8px 12px 4px;
         }
         .user-dropdown .dropdown-item {
             color: var(--muted2);
             font-size: 13px;
-            padding: 9px 14px;
+            padding: 9px 12px;
             border-radius: 6px;
             transition: background .15s, color .15s;
         }
         .user-dropdown .dropdown-item:hover { background: rgba(255,107,0,.1); color: var(--orange); }
         .user-dropdown .dropdown-divider { border-color: var(--border); margin: 4px 0; }
         .user-dropdown .logout-item:hover { background: rgba(255,58,58,.1) !important; color: var(--red) !important; }
+        .super-pill { font-size:9px; background:var(--orange); color:#000; padding:1px 5px; border-radius:3px; margin-left:4px; vertical-align:middle; }
 
-        /* mobile toggle */
+        /* ══ MOBILE MENU ══ */
         .nav-toggler {
             display: none;
             background: none;
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 6px 10px;
+            padding: 5px 9px;
             color: var(--text);
             margin-left: auto;
             cursor: pointer;
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
-        @media (max-width: 768px) {
-            .nav-toggler { display: block; }
-            .nav-items, .nav-right { display: none; }
-            .nav-items.open, .nav-right.open {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                padding: 8px 0;
-                border-top: 1px solid var(--border);
-            }
-            .gymos-nav .container-fluid { flex-wrap: wrap; height: auto; padding: 12px 16px; }
-            .nav-items .nav-link { border-bottom: none; border-left: 2px solid transparent; padding: 10px 16px; }
-            .nav-items .nav-link:hover { border-left-color: var(--orange); border-bottom-color: transparent; }
+        /* mobile slide-down drawer */
+        .mobile-drawer {
+            display: none;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 8px 0 16px;
+            position: fixed;
+            top: 60px;
+            left: 0; right: 0;
+            z-index: 999;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            box-shadow: 0 12px 32px rgba(0,0,0,.7);
         }
+        .mobile-drawer.open { display: block; }
 
-        /* ── GLOBAL PAGE STYLES ── */
+        .mob-section {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .mob-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            color: var(--muted2);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background .15s, color .15s;
+            border-radius: 0;
+        }
+        .mob-link:hover, .mob-link.active { background: rgba(255,107,0,.08); color: var(--orange); text-decoration: none; }
+        .mob-link .mob-icon { font-size: 16px; width: 24px; text-align: center; }
+        .mob-divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+
+        .mob-approval { color: var(--orange) !important; font-weight: 600; }
+
+        /* mob sub-items (indented) */
+        .mob-sub { padding-left: 54px; font-size: 13px; }
+
+        /* ══ PAGE LAYOUT ══ */
         .page-wrap {
-            padding: 32px 28px 60px;
+            padding: 24px 20px 60px;
             max-width: 1400px;
             margin: 0 auto;
         }
+
+        /* ══ GLOBAL COMPONENT STYLES ══ */
 
         /* cards */
         .g-card {
@@ -269,34 +294,69 @@
             border-radius: 14px;
         }
 
-        /* tables */
+        /* page header */
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 1px;
+            color: var(--text);
+            line-height: 1;
+        }
+        .page-title span { color: var(--orange); }
+        .page-sub { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+        /* section title */
+        .section-title {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+        /* tables — mobile scrollable */
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; }
         .table {
             color: var(--text) !important;
             border-color: var(--border) !important;
+            min-width: 500px;
         }
         .table thead th {
-            background: rgba(255,107,0,.15);
+            background: rgba(255,107,0,.12);
             color: var(--orange);
             border-color: var(--border) !important;
             font-size: 11px;
             letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 600;
-            padding: 12px 16px;
+            padding: 11px 14px;
+            white-space: nowrap;
         }
-        .table tbody tr { border-color: var(--border) !important; }
-        .table tbody tr td {
+        .table tbody td {
             background: var(--card);
             border-color: var(--border) !important;
-            padding: 12px 16px;
-            font-size: 14px;
+            padding: 11px 14px;
+            font-size: 13px;
             vertical-align: middle;
         }
         .table-striped tbody tr:nth-of-type(odd) td { background: #141414; }
         .table-hover tbody tr:hover td { background: rgba(255,107,0,.05) !important; }
-
-        .table-danger td { background: rgba(255,58,58,.1) !important; }
-        .table-warning td { background: rgba(255,149,0,.1) !important; }
+        .table-danger td { background: rgba(255,58,58,.08) !important; }
+        .table-warning td { background: rgba(255,149,0,.08) !important; }
 
         /* forms */
         .form-control {
@@ -304,9 +364,10 @@
             border: 1px solid var(--border);
             color: var(--text);
             border-radius: 8px;
-            padding: 10px 14px;
+            padding: 10px 13px;
             font-size: 14px;
             transition: border-color .2s, box-shadow .2s;
+            -webkit-appearance: none;
         }
         .form-control:focus {
             background: #1a1a1a;
@@ -315,88 +376,90 @@
             color: var(--text);
         }
         .form-control::placeholder { color: var(--muted); }
+        select.form-control { cursor: pointer; }
 
-        label { color: var(--orange); font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+        label {
+            color: var(--orange);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
+        }
 
         /* buttons */
-        .btn-primary {
-            background: var(--orange);
-            border: none;
-            color: #000 !important;
-            font-weight: 600;
+        .btn {
             border-radius: 8px;
-            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 9px 18px;
             transition: background .2s, transform .1s;
+            -webkit-tap-highlight-color: transparent;
         }
+        .btn:active { transform: scale(.97); }
+        .btn-primary { background: var(--orange); border: none; color: #000 !important; }
         .btn-primary:hover { background: #e05e00; }
-        .btn-primary:active { transform: scale(.98); }
-        .btn-danger { border-radius: 8px; }
-        .btn-success { border-radius: 8px; }
-        .btn-warning { border-radius: 8px; }
-        .btn-info { border-radius: 8px; }
-        .btn-secondary { border-radius: 8px; }
-        .btn-sm { padding: 5px 12px; font-size: 12px; }
+        .btn-sm { padding: 5px 11px; font-size: 12px; }
 
         /* alerts */
         .alert { border-radius: 10px; border: none; font-size: 13px; }
-        .alert-danger  { background: rgba(255,58,58,.12);  color: #ff8080; border: 1px solid rgba(255,58,58,.25); }
-        .alert-warning { background: rgba(255,149,0,.12); color: #ffb347; border: 1px solid rgba(255,149,0,.25); }
-        .alert-success { background: rgba(34,197,94,.12); color: #4ade80; border: 1px solid rgba(34,197,94,.25); }
-        .alert-info    { background: rgba(59,130,246,.12); color: #93c5fd; border: 1px solid rgba(59,130,246,.25); }
+        .alert-danger  { background: rgba(255,58,58,.1);  color: #ff8080; border: 1px solid rgba(255,58,58,.2); }
+        .alert-warning { background: rgba(255,149,0,.1);  color: #ffb347; border: 1px solid rgba(255,149,0,.2); }
+        .alert-success { background: rgba(34,197,94,.1);  color: #4ade80; border: 1px solid rgba(34,197,94,.2); }
+        .alert-info    { background: rgba(59,130,246,.1); color: #93c5fd; border: 1px solid rgba(59,130,246,.2); }
 
-        /* badges */
-        .badge-active   { background: rgba(34,197,94,.15);  color: #22c55e; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-        .badge-expired  { background: rgba(255,58,58,.15);  color: #ff6b6b; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-        .badge-warning  { background: rgba(255,149,0,.15);  color: #ff9500; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-
-        /* page header utility */
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .page-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 40px;
-            letter-spacing: 1px;
-            color: var(--text);
-            line-height: 1;
-        }
-        .page-title span { color: var(--orange); }
-        .page-sub { font-size: 12px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+        /* status badges */
+        .badge-active  { background:rgba(34,197,94,.15);  color:#22c55e; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+        .badge-expired { background:rgba(255,58,58,.15);  color:#ff6b6b; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+        .badge-pending { background:rgba(255,149,0,.15);  color:#ff9500; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
 
         /* pagination */
-        .page-link { background: var(--card); border-color: var(--border); color: var(--muted2); border-radius: 6px !important; margin: 0 2px; }
-        .page-link:hover { background: rgba(255,107,0,.1); color: var(--orange); border-color: var(--orange); }
-        .page-item.active .page-link { background: var(--orange); border-color: var(--orange); color: #000; }
-
-        /* section title */
-        .section-title {
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .page-link { background:var(--card); border-color:var(--border); color:var(--muted2); border-radius:6px !important; margin:0 2px; }
+        .page-link:hover { background:rgba(255,107,0,.1); color:var(--orange); border-color:var(--orange); }
+        .page-item.active .page-link { background:var(--orange); border-color:var(--orange); color:#000; }
 
         /* footer */
         .gymos-footer {
             background: var(--surface);
             border-top: 1px solid var(--border);
-            padding: 18px 28px;
+            padding: 16px 20px;
             text-align: center;
             font-size: 12px;
             color: var(--muted);
             letter-spacing: 1px;
         }
         .gymos-footer span { color: var(--orange); }
+
+        /* ══ RESPONSIVE BREAKPOINTS ══ */
+        @media (max-width: 991px) {
+            /* hide desktop nav, show toggler */
+            .nav-links { display: none; }
+            .nav-user-area { display: none; }
+            .nav-toggler { display: flex; align-items: center; justify-content: center; }
+
+            /* page padding tighter */
+            .page-wrap { padding: 16px 12px 60px; }
+            .page-title { font-size: 28px; }
+        }
+
+        @media (max-width: 576px) {
+            .page-wrap { padding: 12px 10px 60px; }
+
+            /* stack page-header buttons */
+            .page-header { flex-direction: column; align-items: flex-start; }
+            .page-header .btn { width: 100%; text-align: center; }
+
+            /* smaller brand on tiny screens */
+            .brand-text { font-size: 18px; }
+            .brand-icon { width: 28px; height: 28px; font-size: 14px; }
+
+            /* make form rows single column */
+            .form-row > [class*="col-"] { margin-bottom: 12px; }
+
+            /* btn block on mobile */
+            .btn-mobile-block { width: 100%; display: block; text-align: center; }
+        }
 
         {% block extra_styles %}{% endblock %}
     </style>
@@ -405,11 +468,9 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     NAVBAR
-══════════════════════════════════════ -->
+<!-- ══════════ NAVBAR ══════════ -->
 <nav class="gymos-nav">
-    <div class="container-fluid">
+    <div class="nav-inner">
 
         <!-- Brand -->
         <a class="nav-brand" href="{% if request.user.is_staff %}{% url 'home' %}{% else %}{% url 'homepage' %}{% endif %}">
@@ -417,129 +478,98 @@
             <div class="brand-text">Gym<span>OS</span></div>
         </a>
 
-        <!-- Toggle (mobile) -->
-        <button class="nav-toggler" id="navToggle">☰</button>
-
         {% if request.user.is_authenticated and request.user.is_staff %}
 
-        <!-- Staff Nav Links -->
-        <ul class="nav-items" id="navItems">
+        <!-- Desktop Links -->
+        <ul class="nav-links">
             <li>
                 <a class="nav-link {% if request.path == '/home/' %}active{% endif %}" href="{% url 'home' %}">
                     <span class="nav-icon">⊞</span> Dashboard
                 </a>
             </li>
-
             {% if request.user.is_superuser %}
             <li>
-                <a class="nav-link approval-link {% if '/approve' in request.path %}active{% endif %}" href="{% url 'approve_admins' %}">
-                    <span class="nav-icon">🔐</span> Approvals
-                    {% if pending_count %}
-                        <span class="approval-badge">{{ pending_count }}</span>
-                    {% endif %}
+                <a class="nav-link approval-link" href="{% url 'approve_admins' %}">
+                    🔐 Approvals
+                    {% if pending_count %}<span class="ap-badge-dot">{{ pending_count }}</span>{% endif %}
                 </a>
             </li>
             {% endif %}
-
             <li class="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    <span class="nav-icon">📩</span> Enquiry
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="nav-icon">📩</span> Enquiry</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'add_enquiry' %}"><span class="di-icon">＋</span> Add Enquiry</a>
-                    <a class="dropdown-item" href="{% url 'view_enquiry' %}"><span class="di-icon">◉</span> View Enquiries</a>
+                    <a class="dropdown-item" href="{% url 'add_enquiry' %}">＋ Add Enquiry</a>
+                    <a class="dropdown-item" href="{% url 'view_enquiry' %}">◉ View Enquiries</a>
                 </div>
             </li>
-
             <li class="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    <span class="nav-icon">✓</span> Attendance
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="nav-icon">✓</span> Attendance</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'attendance' %}"><span class="di-icon">＋</span> Mark Attendance</a>
-                    <a class="dropdown-item" href="{% url 'view_attendance' %}"><span class="di-icon">◉</span> View Attendance</a>
+                    <a class="dropdown-item" href="{% url 'attendance' %}">＋ Mark Attendance</a>
+                    <a class="dropdown-item" href="{% url 'view_attendance' %}">◉ View Attendance</a>
                 </div>
             </li>
-
             <li class="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    <span class="nav-icon">📋</span> Plan
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="nav-icon">📋</span> Plan</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'add_plan' %}"><span class="di-icon">＋</span> Add Plan</a>
-                    <a class="dropdown-item" href="{% url 'view_plan' %}"><span class="di-icon">◉</span> View Plans</a>
+                    <a class="dropdown-item" href="{% url 'add_plan' %}">＋ Add Plan</a>
+                    <a class="dropdown-item" href="{% url 'view_plan' %}">◉ View Plans</a>
                 </div>
             </li>
-
             <li class="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    <span class="nav-icon">🏋</span> Equipment
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="nav-icon">🏋</span> Equipment</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'add_equipment' %}"><span class="di-icon">＋</span> Add Equipment</a>
-                    <a class="dropdown-item" href="{% url 'view_equipment' %}"><span class="di-icon">◉</span> View Equipment</a>
+                    <a class="dropdown-item" href="{% url 'add_equipment' %}">＋ Add Equipment</a>
+                    <a class="dropdown-item" href="{% url 'view_equipment' %}">◉ View Equipment</a>
                 </div>
             </li>
-
             <li class="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    <span class="nav-icon">👥</span> Members
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="nav-icon">👥</span> Members</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'add_member' %}"><span class="di-icon">＋</span> Add Member</a>
-                    <a class="dropdown-item" href="{% url 'view_member' %}"><span class="di-icon">◉</span> View Members</a>
-                    <a class="dropdown-item" href="{% url 'download_members_pdf' %}"><span class="di-icon">↓</span> Download PDF</a>
+                    <a class="dropdown-item" href="{% url 'add_member' %}">＋ Add Member</a>
+                    <a class="dropdown-item" href="{% url 'view_member' %}">◉ View Members</a>
+                    <a class="dropdown-item" href="{% url 'download_members_pdf' %}">↓ Download PDF</a>
                 </div>
             </li>
         </ul>
 
-        <!-- Right: User dropdown -->
-        <div class="nav-right" id="navRight">
+        <!-- Desktop User Dropdown -->
+        <div class="nav-user-area">
             <div class="dropdown">
                 <button class="user-btn dropdown-toggle" data-toggle="dropdown">
                     <div class="user-avatar">{{ request.user.username|first|upper }}</div>
-                    <span>{{ request.user.username|truncatechars:12 }}</span>
+                    <span class="user-name">{{ request.user.username }}</span>
+                    {% if request.user.is_superuser %}<span class="super-pill">SUPER</span>{% endif %}
                 </button>
                 <div class="dropdown-menu user-dropdown">
                     <div class="dropdown-header">Signed in as</div>
-                    <div style="padding:4px 14px 10px;font-size:14px;font-weight:600;color:var(--text);">
-                        {{ request.user.username }}
-                        {% if request.user.is_superuser %}
-                            <span style="font-size:10px;background:var(--orange);color:#000;padding:1px 6px;border-radius:4px;margin-left:4px;">SUPER</span>
-                        {% endif %}
-                    </div>
+                    <div style="padding:2px 12px 10px;font-size:14px;font-weight:600;color:var(--text);">{{ request.user.username }}</div>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'view_member' %}">👥 My Members</a>
-                    {% if request.user.is_superuser %}
-                    <a class="dropdown-item" href="{% url 'approve_admins' %}">🔐 Approval Panel</a>
-                    {% endif %}
+                    {% if request.user.is_superuser %}<a class="dropdown-item" href="{% url 'approve_admins' %}">🔐 Approval Panel</a>{% endif %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item logout-item" href="{% url 'logout' %}">⎋ Logout</a>
                 </div>
             </div>
         </div>
 
+        <!-- Mobile Toggler -->
+        <button class="nav-toggler" id="navToggler">☰</button>
+
         {% elif request.user.is_authenticated and not request.user.is_staff %}
 
-        <!-- Member Nav -->
-        <ul class="nav-items" id="navItems">
-            <li><a class="nav-link" href="{% url 'member_dashboard' %}">⊞ My Dashboard</a></li>
-        </ul>
-        <div class="nav-right" id="navRight">
-            <a class="nav-link" href="{% url 'member_logout' %}" style="padding:0 20px;height:62px;display:flex;align-items:center;color:var(--muted2);">Logout</a>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;">
+            <a href="{% url 'member_dashboard' %}" style="color:var(--muted2);font-size:13px;text-decoration:none;">⊞ Dashboard</a>
+            <a href="{% url 'member_logout' %}" style="color:var(--muted2);font-size:13px;text-decoration:none;">Logout</a>
         </div>
 
         {% else %}
 
-        <!-- Public Nav -->
-        <ul class="nav-items" id="navItems">
-            <li><a class="nav-link" href="{% url 'homepage' %}">🏠 Home</a></li>
-            <li><a class="nav-link" href="{% url 'about' %}">About</a></li>
-            <li><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-        <div class="nav-right" id="navRight">
-            <a class="nav-link" href="{% url 'login' %}" style="padding:0 16px;height:62px;display:flex;align-items:center;color:var(--muted2);">Admin Login</a>
-            <a href="{% url 'member_login' %}" style="margin:0 16px;padding:8px 18px;background:var(--orange);color:#000;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Member Login</a>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'homepage' %}" style="color:var(--muted2);font-size:13px;padding:0 10px;text-decoration:none;">Home</a>
+            <a href="{% url 'about' %}"   style="color:var(--muted2);font-size:13px;padding:0 10px;text-decoration:none;">About</a>
+            <a href="{% url 'login' %}"   style="color:var(--muted2);font-size:13px;padding:0 10px;text-decoration:none;">Admin Login</a>
+            <a href="{% url 'member_login' %}" style="background:var(--orange);color:#000;font-size:13px;font-weight:600;padding:7px 14px;border-radius:7px;text-decoration:none;">Member Login</a>
         </div>
 
         {% endif %}
@@ -547,52 +577,100 @@
     </div>
 </nav>
 
-<!-- ══════════════════════════════════════
-     MESSAGES
-══════════════════════════════════════ -->
+<!-- ══════════ MOBILE DRAWER ══════════ -->
+{% if request.user.is_authenticated and request.user.is_staff %}
+<div class="mobile-drawer" id="mobileDrawer">
+
+    <div class="mob-section">Navigation</div>
+    <a class="mob-link {% if request.path == '/home/' %}active{% endif %}" href="{% url 'home' %}">
+        <span class="mob-icon">⊞</span> Dashboard
+    </a>
+
+    {% if request.user.is_superuser %}
+    <a class="mob-link mob-approval" href="{% url 'approve_admins' %}">
+        <span class="mob-icon">🔐</span> Approval Panel
+        {% if pending_count %}<span class="ap-badge-dot">{{ pending_count }}</span>{% endif %}
+    </a>
+    {% endif %}
+
+    <hr class="mob-divider">
+    <div class="mob-section">Enquiry</div>
+    <a class="mob-link mob-sub" href="{% url 'add_enquiry' %}">＋ Add Enquiry</a>
+    <a class="mob-link mob-sub" href="{% url 'view_enquiry' %}">◉ View Enquiries</a>
+
+    <hr class="mob-divider">
+    <div class="mob-section">Attendance</div>
+    <a class="mob-link mob-sub" href="{% url 'attendance' %}">＋ Mark Attendance</a>
+    <a class="mob-link mob-sub" href="{% url 'view_attendance' %}">◉ View Attendance</a>
+
+    <hr class="mob-divider">
+    <div class="mob-section">Plan</div>
+    <a class="mob-link mob-sub" href="{% url 'add_plan' %}">＋ Add Plan</a>
+    <a class="mob-link mob-sub" href="{% url 'view_plan' %}">◉ View Plans</a>
+
+    <hr class="mob-divider">
+    <div class="mob-section">Equipment</div>
+    <a class="mob-link mob-sub" href="{% url 'add_equipment' %}">＋ Add Equipment</a>
+    <a class="mob-link mob-sub" href="{% url 'view_equipment' %}">◉ View Equipment</a>
+
+    <hr class="mob-divider">
+    <div class="mob-section">Members</div>
+    <a class="mob-link mob-sub" href="{% url 'add_member' %}">＋ Add Member</a>
+    <a class="mob-link mob-sub" href="{% url 'view_member' %}">◉ View Members</a>
+    <a class="mob-link mob-sub" href="{% url 'download_members_pdf' %}">↓ Download PDF</a>
+
+    <hr class="mob-divider">
+    <div class="mob-section">Account</div>
+    <div style="padding:10px 20px;font-size:13px;color:var(--muted2);">
+        Logged in as <strong style="color:var(--orange);">{{ request.user.username }}</strong>
+    </div>
+    <a class="mob-link" href="{% url 'logout' %}" style="color:var(--red);">
+        <span class="mob-icon">⎋</span> Logout
+    </a>
+
+</div>
+{% endif %}
+
+<!-- ══════════ MESSAGES ══════════ -->
 {% if messages %}
-<div style="max-width:1400px;margin:16px auto;padding:0 28px;">
+<div style="padding: 12px 20px 0; max-width:1400px; margin:0 auto;">
     {% for message in messages %}
-    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
         {{ message }}
-        <button type="button" class="close" data-dismiss="alert" style="color:inherit;">
-            <span>×</span>
-        </button>
+        <button type="button" class="close" data-dismiss="alert" style="color:inherit;"><span>×</span></button>
     </div>
     {% endfor %}
 </div>
 {% endif %}
 
-<!-- ══════════════════════════════════════
-     PAGE CONTENT
-══════════════════════════════════════ -->
+<!-- ══════════ CONTENT ══════════ -->
 <div class="page-wrap">
     {% block body %}{% endblock %}
 </div>
 
-<!-- ══════════════════════════════════════
-     FOOTER
-══════════════════════════════════════ -->
+<!-- ══════════ FOOTER ══════════ -->
 <footer class="gymos-footer">
     © 2025 <span>GymOS</span> · Built in black & orange 💪
 </footer>
 
 <script>
-// Mobile toggle
-document.getElementById('navToggle').addEventListener('click', function() {
-    document.getElementById('navItems').classList.toggle('open');
-    document.getElementById('navRight').classList.toggle('open');
-});
-
-// Active nav link detection
-(function() {
-    const path = window.location.pathname;
-    document.querySelectorAll('.nav-items .nav-link:not(.dropdown-toggle)').forEach(function(link) {
-        if (link.getAttribute('href') === path) {
-            link.classList.add('active');
+// Mobile drawer toggle
+var toggler = document.getElementById('navToggler');
+var drawer  = document.getElementById('mobileDrawer');
+if (toggler && drawer) {
+    toggler.addEventListener('click', function(e) {
+        e.stopPropagation();
+        drawer.classList.toggle('open');
+        toggler.textContent = drawer.classList.contains('open') ? '✕' : '☰';
+    });
+    // Close on outside tap
+    document.addEventListener('click', function(e) {
+        if (!drawer.contains(e.target) && e.target !== toggler) {
+            drawer.classList.remove('open');
+            toggler.textContent = '☰';
         }
     });
-})();
+}
 </script>
 
 </body>
