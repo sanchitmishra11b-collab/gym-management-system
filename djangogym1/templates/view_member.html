@@ -1,0 +1,113 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<style>
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #ff7a1a !important;
+    color: black !important;
+    border: none !important;
+    border-radius: 8px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: white !important;
+}
+.table-danger-custom { border-left: 5px solid #ef4444; }
+.table-warning-custom { border-left: 5px solid #facc15; }
+@media(max-width:768px) {
+    .stats-card { margin-bottom: 15px; }
+    .btn-action { display: block; width: 100%; margin-bottom: 6px; }
+}
+</style>
+
+<div class="container-fluid mt-4 px-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <h2 style="color: #ff7a00; font-weight: 700;">👥 All Members</h2>
+        <a href="{% url 'download_members_pdf' %}" class="btn btn-success rounded-pill px-4 py-2 fw-bold">
+            📄 Download PDF
+        </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card text-center p-3" style="border-left: 5px solid #ff7a00; background: #fff8f0;">
+                <p style="color: #555; font-weight: 600; margin-bottom: 4px;">Total Members</p>
+                <h3 style="color: #ff7a00; font-weight: 800;">{{ total_count }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-center p-3" style="border-left: 5px solid #22c55e; background: #f0fff4;">
+                <p style="color: #555; font-weight: 600; margin-bottom: 4px;">Active Members</p>
+                <h3 style="color: #22c55e; font-weight: 800;">{{ active_count }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-center p-3" style="border-left: 5px solid #ef4444; background: #fff5f5;">
+                <p style="color: #555; font-weight: 600; margin-bottom: 4px;">Expired Members</p>
+                <h3 style="color: #ef4444; font-weight: 800;">{{ expired_count }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card p-3 shadow-sm">
+        <div class="table-responsive">
+            <table id="membersTable" class="table align-middle table-bordered table-hover">
+                <thead style="background: #ff7a00; color: white;">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Plan</th>
+                        <th>Joining</th>
+                        <th>Expiry</th>
+                        <th>Days Left</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in members %}
+                    <tr class="{% if member.status == 'Expired' %}table-danger-custom{% elif member.days_left <= 7 %}table-warning-custom{% endif %}">
+                        <td>{{ forloop.counter }}</td>
+                        <td><strong>{{ member.name }}</strong></td>
+                        <td>{{ member.contact }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>{{ member.plan }}</td>
+                        <td>{{ member.joining_date }}</td>
+                        <td>{{ member.expiry_date }}</td>
+                        <td>
+                            {% if member.status == 'Expired' %}
+                                <span style="color: #ef4444; font-weight: 700;">0</span>
+                            {% else %}
+                                <span style="color: #22c55e; font-weight: 700;">{{ member.days_left }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if member.status == 'Expired' %}
+                                <span class="badge bg-danger">Expired</span>
+                            {% else %}
+                                <span class="badge bg-success">Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'edit_member' member.id %}" class="btn btn-warning btn-sm mb-1">🔄 Renew</a>
+                            <a href="{% url 'generate_ai_plan' member.id %}" class="btn btn-info btn-sm mb-1">🤖 AI Plan</a>
+                            <a href="{% url 'delete_member' member.id %}" class="btn btn-danger btn-sm mb-1"
+                               onclick="return confirm('Delete {{ member.name }}?')">🗑 Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="text-center text-muted py-4">No members found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

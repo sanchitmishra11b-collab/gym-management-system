@@ -1,0 +1,53 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card-ghost p-4 rounded-4 shadow-lg">
+
+                <h2 class="text-center fw-bold mb-1" style="color: #ff6600;">
+                    🏋️ Member Login
+                </h2>
+                <p class="text-center mb-4" style="color: #aaa; font-size: 0.9rem;">
+                    Welcome back! Login to your dashboard.
+                </p>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" 
+                               placeholder="Enter your username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" 
+                               placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-2">
+                        Login →
+                    </button>
+
+                </form>
+
+                <p class="text-center mt-3" style="color: #777; font-size: 0.85rem;">
+                    Default password for new members: <code style="color:#ff6600;">member@123</code>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

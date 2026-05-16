@@ -1,0 +1,53 @@
+{% extends 'navigationbar.html' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Mark Attendance</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow p-3">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>#</th>
+                        <th>Member Name</th>
+                        <th>Email</th>
+                        <th>Membership Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in members %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ member.name }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>{{ member.plan }}</td>
+                        <td>
+                            <a href="{% url 'mark_attendance' member.id %}"
+                               class="btn btn-success btn-sm">
+                               Mark Present
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No members found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

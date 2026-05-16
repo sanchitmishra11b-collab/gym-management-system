@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Management System</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Full-screen background video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain; /* Shows full video */
+            z-index: -2;
+            background: black;
+        }
+
+        /* Dark overlay for readability */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Centered content */
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        /* Animated title */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            margin-bottom: 15px;
+            animation: fadeInDown 1s ease;
+        }
+
+        /* Subtext */
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        /* Buttons */
+        .btn-custom {
+            background: linear-gradient(45deg, #ff4500, #ff7733);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            padding: 12px 35px;
+            border-radius: 50px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 69, 0, 0.4);
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.07);
+            box-shadow: 0 6px 15px rgba(255, 119, 51, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            color: #ddd;
+            font-size: 0.9rem;
+            z-index: 1;
+            opacity: 0.85;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            p {
+                font-size: 1.1rem;
+            }
+            .btn-custom {
+                font-size: 1rem;
+                padding: 10px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background video -->
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="{% static 'videos/gym_bg1.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Main content -->
+    <div class="content">
+        <h1>Welcome to Gym Management System 🏋️‍♂️</h1>
+        <p>Choose your portal below to get started</p>
+
+        <div>
+            <a href="{% url 'login' %}" class="btn-custom">Admin Portal</a>
+            <a href="{% url 'member_login' %}" class="btn-custom">Member Portal</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2025 Gym Management System | Designed for Admin Efficiency
+    </footer>
+
+
+    
+</body>
+</html>

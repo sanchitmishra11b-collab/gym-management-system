@@ -1,0 +1,93 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<style>
+    /* Remove DataTables sort icons */
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc:after {
+        display: none !important;
+    }
+
+    <a href="{% url 'download_enquiry_pdf' %}" class="btn btn-info mb-3">
+    Download Enquiry PDF
+</a>
+    /* Dark Table Theme */
+    .table {
+        color: #fff !important;
+        background-color: #1a1a1a !important;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #444 !important;
+    }
+
+    .thead-dark th {
+        background-color: #ff6600 !important;
+        color: #000 !important;
+        font-weight: 600;
+    }
+
+    .btn-danger {
+        background-color: #cc0000 !important;
+        border: none;
+    }
+</style>
+
+<a href="{% url 'download_enquiry_pdf' %}" class="btn btn-info mb-3">
+    Download Enquiry PDF
+</a>
+
+<div class="container mt-5">
+    <h2 class="text-center text-warning mb-4">Enquiries</h2>
+
+    <table id="enquiryTable" class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for e in enq %}
+            <tr>
+                <td>{{ e.name }}</td>
+                <td>{{ e.contact }}</td>
+                <td>{{ e.email }}</td>
+                <td>{{ e.age }}</td>
+                <td>{{ e.gender }}</td>
+                <td>
+                    <a href="{% url 'delete_enquiry' e.id %}" class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#enquiryTable').DataTable({
+        "ordering": false,
+        "pageLength": 10
+    });
+});
+</script>
+
+{% endblock %}

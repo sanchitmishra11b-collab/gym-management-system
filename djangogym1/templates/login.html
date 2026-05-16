@@ -1,0 +1,40 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+<div class="d-flex justify-content-center" style="margin-top:80px;">
+  <div class="card card-ghost" style="width:380px; padding:24px;">
+    <h3 class="text-primary text-center mb-3">Admin Login</h3>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-sm" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" class="form-control" required autofocus>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+
+      <button class="btn btn-primary btn-block">Login</button>
+    </form>
+
+    <div style="margin-top: 15px; text-align: center;">
+    <a href="{% url 'register' %}" style="color: orange; font-weight: bold;">
+        New Admin? Register Here
+    </a>
+</div>
+
+
+    <div class="text-center mt-3">
+      <a href="{% url 'forgot_password_request' %}">Forgot Password?</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

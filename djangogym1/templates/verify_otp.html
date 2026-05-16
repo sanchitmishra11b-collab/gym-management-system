@@ -1,0 +1,21 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+<div class="d-flex justify-content-center" style="margin-top:80px;">
+  <div class="card card-ghost" style="width:360px; padding:20px;">
+    <h4 class="text-primary text-center">Verify OTP</h4>
+
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>One-Time Password</label>
+        <input type="text" name="otp" class="form-control" required>
+      </div>
+      <button class="btn btn-primary btn-block">Verify</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

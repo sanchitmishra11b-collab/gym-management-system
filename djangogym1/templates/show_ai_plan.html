@@ -1,0 +1,42 @@
+{% extends 'navigationbar.html' %}
+
+{% block body %}
+
+<div class="container mt-5">
+
+ <h2 class="text-center fw-bold" style="color:#ff8800;">
+  🧠 AI-Generated Fitness & Diet Plan
+</h2>
+<p class="text-center text-muted">
+  Personalized recommendation based on BMI and health profile
+</p>
+
+  <!-- BMI Section -->
+  <div class="alert alert-{{ bmi_class }} text-center mt-3">
+    <strong>BMI:</strong> {{ bmi }} <br>
+    <strong>Status:</strong> {{ bmi_status }}
+  </div>
+
+<div class="card bg-light text-dark p-4 mt-4" style="border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+  <h4 class="text-primary">🏋️ Workout Plan</h4>
+  <p style="white-space: pre-wrap; font-family: monospace; font-size: 15px;">
+    {{ member.ai_workout_plan }}
+  </p>
+</div>
+
+
+  <!-- Diet Plan -->
+  <div class="card bg-light text-dark p-4 mt-4" style="border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+    <h4 class="text-primary">🥗 Diet Plan</h4>
+    <pre style="white-space: pre-wrap; font-size: 15px;">
+{{ member.ai_diet_plan }}
+    </pre>
+  </div>
+
+  <a href="{% url 'view_member' %}" class="btn btn-warning mt-4">
+    ⬅ Back to Members
+  </a>
+
+</div>
+
+{% endblock %}

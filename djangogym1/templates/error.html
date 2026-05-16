@@ -1,0 +1,13 @@
+{% extends 'navigationbar.html' %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <div class="card shadow-lg p-4" style="background-color: rgba(255,255,255,0.85); border-radius: 15px;">
+        <h2 class="text-danger mb-3">⚠️ Error</h2>
+        <p class="text-dark fs-5">
+            {{ message }}
+        </p>
+        <a href="{% url 'member_login' %}" class="btn btn-primary mt-3">Go to Member Login</a>
+    </div>
+</div>
+{% endblock %}

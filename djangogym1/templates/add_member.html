@@ -1,0 +1,145 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Add New Member 👤</h2>
+
+    <!-- ✅ Show Django messages -->
+    {% if messages %}
+    <div class="container mt-2">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+
+        <!-- 🧍 Basic Info -->
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label class="form-label">Contact</label>
+                <input type="text" name="contact" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Age</label>
+                <input type="number" name="age" class="form-control" min="10" required>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label class="form-label">Gender</label>
+                <select name="gender" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Select Plan</label>
+                <select name="plan" class="form-control" required>
+                    <option value="">-- Select a Plan --</option>
+                    {% for p in plan %}
+                        <option value="{{ p.id }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- 📅 Membership Info -->
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label class="form-label">Join Date</label>
+                <input type="date" name="joindate" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Expire Date</label>
+                <input type="date" name="expiredate" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label class="form-label">Initial Amount</label>
+                <input type="number" name="initialamount" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Health Issue (if any)</label>
+                <input type="text" name="health_issue" class="form-control" placeholder="e.g., asthma, back pain">
+            </div>
+        </div>
+
+        <!-- ⚙️ Fitness Details (for AI Plan) -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <label class="form-label">Height (cm)</label>
+                <input type="number" name="height" class="form-control" placeholder="e.g., 170">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Weight (kg)</label>
+                <input type="number" name="weight" class="form-control" placeholder="e.g., 70">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Goal Weight (kg)</label>
+                <input type="number" name="goal_weight" class="form-control" placeholder="e.g., 65">
+            </div>
+        </div>
+
+        <!-- ⚡ AI Plan Customization -->
+        <div class="mt-4 border-top pt-3">
+            <h5 class="text-center text-warning mb-3">🧠 AI Plan Preferences (Optional)</h5>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Fitness Goal</label>
+                    <select name="fitness_goal" class="form-control">
+                        <option value="">-- Select Goal --</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="General Fitness">General Fitness</option>
+                        <option value="Endurance">Endurance</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Diet Preference</label>
+                    <select name="diet_type" class="form-control">
+                        <option value="">-- Select Diet Type --</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Non-Vegetarian">Non-Vegetarian</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Keto">Keto</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" name="auto_generate_ai_plan" id="auto_generate_ai_plan">
+                <label class="form-check-label" for="auto_generate_ai_plan">
+                    Automatically Generate AI Plan after adding member
+                </label>
+            </div>
+        </div>
+
+        <!-- ✅ Submit -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-dark px-5 py-2" style="background-color: orange; border: none;">
+                ➕ Add Member
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

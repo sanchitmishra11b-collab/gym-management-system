@@ -1,0 +1,60 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<div class="container mt-4">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-white rounded-top-4"
+         style="background: linear-gradient(90deg, #ff7a00, #ff9900);">
+      <h2 class="mb-0">Renew Membership — {{ member.name }}</h2>
+    </div>
+
+    <div class="card-body" style="background-color:#fff7ef;">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Plan</label>
+          <select name="plan" class="form-select" required>
+            {% for p in plan %}
+              <option value="{{ p.id }}" {% if member.plan.id == p.id %}selected{% endif %}>
+                {{ p.name }} — ₹{{ p.amount }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">New Joining Date</label>
+          <input type="date" name="joindate" class="form-control"
+                 value="{{ member.joining_date }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">New Expiry Date</label>
+          <input type="date" name="expiredate" class="form-control"
+                 value="{{ member.expiry_date }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Amount Paid (₹)</label>
+          <input type="number" name="initialamount" class="form-control"
+                 value="{{ member.initial_amount }}" required>
+        </div>
+
+        <button type="submit" class="btn text-white"
+                style="background:#ff7a00;">
+          ✅ Renew Membership
+        </button>
+        <a href="{% url 'view_member' %}" class="btn btn-secondary ms-2">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

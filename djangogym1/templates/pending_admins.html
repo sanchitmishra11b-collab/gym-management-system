@@ -1,0 +1,415 @@
+{% extends 'navigationbar.html' %}
+{% block title %}Approval Panel — GymOS{% endblock %}
+
+{% block extra_styles %}
+.ap-header {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+.ap-header::after {
+    content: 'ACCESS';
+    position: absolute;
+    right: -10px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 110px;
+    color: rgba(255,107,0,.04);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: 4px;
+}
+.ap-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--orange), transparent);
+}
+.ap-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+.ap-title span { color: var(--orange); }
+.ap-subtitle { font-size: 12px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+
+/* stats */
+.ap-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+}
+.ap-stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.ap-stat::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+.ap-stat.s-pending::before  { background: var(--orange); }
+.ap-stat.s-approved::before { background: var(--green); }
+.ap-stat.s-total::before    { background: #3b82f6; }
+.s-num { font-family:'Bebas Neue',sans-serif; font-size:48px; line-height:1; }
+.s-lbl { font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--muted); margin-top:3px; }
+.s-pending  .s-num { color: var(--orange); }
+.s-approved .s-num { color: var(--green); }
+.s-total    .s-num { color: #3b82f6; }
+
+/* section head */
+.sec-head {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+}
+.sec-head::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* grid */
+.ap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 14px;
+    margin-bottom: 36px;
+}
+
+/* card */
+.ap-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+}
+.ap-card:hover { border-color: #333; transform: translateY(-3px); }
+.ap-card.is-pending  { border-left: 3px solid var(--orange); }
+.ap-card.is-approved { border-left: 3px solid var(--green); }
+.ap-card.is-expired  { border-left: 3px solid var(--red); }
+
+.stripe { height:3px; width:100%; }
+.stripe-p { background: linear-gradient(90deg, var(--orange), transparent); }
+.stripe-a { background: linear-gradient(90deg, var(--green),  transparent); }
+.stripe-e { background: linear-gradient(90deg, var(--red),    transparent); }
+
+.ap-card-body { padding: 20px; }
+
+.ap-card-top { display:flex; align-items:center; gap:13px; margin-bottom:16px; }
+.ap-avatar {
+    width:46px; height:46px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue',sans-serif; font-size:20px; flex-shrink:0;
+}
+.av-p { background:rgba(255,107,0,.12); color:var(--orange); border:1px solid rgba(255,107,0,.25); }
+.av-a { background:rgba(34,197,94,.1);  color:var(--green);  border:1px solid rgba(34,197,94,.2); }
+.av-e { background:rgba(255,58,58,.12); color:var(--red);    border:1px solid rgba(255,58,58,.25); }
+
+.ap-name  { font-size:15px; font-weight:600; color:var(--text); margin:0; }
+.ap-email { font-size:12px; color:var(--muted2); margin-top:2px; word-break:break-all; }
+
+.ap-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    padding:3px 10px; border-radius:20px; margin-bottom:14px;
+}
+.badge-p { background:rgba(255,107,0,.12); color:var(--orange); border:1px solid rgba(255,107,0,.2); }
+.badge-a { background:rgba(34,197,94,.1);  color:var(--green);  border:1px solid rgba(34,197,94,.2); }
+.badge-e { background:rgba(255,58,58,.12); color:var(--red);    border:1px solid rgba(255,58,58,.25); }
+.badge-w { background:rgba(255,149,0,.12); color:#ff9500;       border:1px solid rgba(255,149,0,.25); }
+
+.bdot { width:6px; height:6px; border-radius:50%; animation:bdot 1.5s infinite; }
+.badge-p .bdot { background:var(--orange); }
+.badge-a .bdot { background:var(--green); animation:none; }
+.badge-e .bdot { background:var(--red); }
+.badge-w .bdot { background:#ff9500; }
+@keyframes bdot { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.ap-meta {
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    padding:12px 0; border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border); margin-bottom:16px;
+}
+.meta-key { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:2px; }
+.meta-val { font-size:13px; color:var(--muted2); }
+
+/* expiry bar */
+.expiry-bar-wrap {
+    margin-bottom: 14px;
+}
+.expiry-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+.expiry-bar-label .days-val { font-weight: 600; }
+.days-ok   { color: var(--green) !important; }
+.days-warn { color: #ff9500 !important; }
+.days-dead { color: var(--red) !important; }
+
+.expiry-bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.expiry-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .6s ease;
+}
+.fill-ok   { background: var(--green); }
+.fill-warn { background: #ff9500; }
+.fill-dead { background: var(--red); width: 100% !important; }
+
+/* buttons */
+.btn-approve {
+    display:block; width:100%; padding:11px;
+    background:var(--orange); color:#000; border:none;
+    border-radius:8px; font-size:13px; font-weight:700;
+    text-align:center; text-decoration:none;
+    cursor:pointer; transition:background .2s, transform .1s;
+}
+.btn-approve:hover  { background:#e05e00; color:#000; text-decoration:none; }
+.btn-approve:active { transform:scale(.98); }
+
+.btn-renew {
+    display:block; width:100%; padding:11px;
+    background:rgba(34,197,94,.1); color:var(--green);
+    border:1px solid rgba(34,197,94,.3); border-radius:8px;
+    font-size:13px; font-weight:700; text-align:center;
+    text-decoration:none; cursor:pointer;
+    transition:background .2s, border-color .2s;
+}
+.btn-renew:hover { background:rgba(34,197,94,.18); border-color:var(--green); color:var(--green); text-decoration:none; }
+
+.btn-reactivate {
+    display:block; width:100%; padding:11px;
+    background:rgba(255,58,58,.1); color:var(--red);
+    border:1px solid rgba(255,58,58,.3); border-radius:8px;
+    font-size:13px; font-weight:700; text-align:center;
+    text-decoration:none; cursor:pointer;
+    transition:background .2s;
+}
+.btn-reactivate:hover { background:rgba(255,58,58,.18); color:var(--red); text-decoration:none; }
+
+.btn-reject {
+    display:block; width:100%; margin-top:8px; padding:9px;
+    background:transparent; color:var(--muted);
+    border:1px solid var(--border); border-radius:8px;
+    font-size:12px; text-align:center; text-decoration:none;
+    cursor:pointer; transition:border-color .2s, color .2s, background .2s;
+}
+.btn-reject:hover { border-color:rgba(255,58,58,.5); color:#ff6b6b; background:rgba(255,58,58,.06); text-decoration:none; }
+
+/* empty */
+.ap-empty {
+    text-align:center; padding:52px 20px;
+    background:var(--card); border:1px dashed var(--border);
+    border-radius:14px; margin-bottom:36px;
+}
+.ap-empty-text { color:var(--muted); font-size:14px; }
+
+@media(max-width:600px){
+    .ap-stats{grid-template-columns:1fr;}
+    .ap-title{font-size:32px;}
+}
+{% endblock %}
+
+{% block body %}
+
+<!-- HEADER -->
+<div class="ap-header">
+    <div>
+        <div class="ap-title">Approval <span>Panel</span></div>
+        <div class="ap-subtitle">Manage gym admin access & renewals</div>
+    </div>
+    <div style="text-align:right;">
+        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Superadmin</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--orange);letter-spacing:1px;">{{ request.user.username }}</div>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="ap-stats">
+    <div class="ap-stat s-pending">
+        <div class="s-num">{{ pending|length }}</div>
+        <div class="s-lbl">Pending</div>
+    </div>
+    <div class="ap-stat s-approved">
+        <div class="s-num">{{ approved|length }}</div>
+        <div class="s-lbl">Approved</div>
+    </div>
+    <div class="ap-stat s-total">
+        <div class="s-num">{{ pending|length|add:approved|length }}</div>
+        <div class="s-lbl">Total Registered</div>
+    </div>
+</div>
+
+<!-- PENDING -->
+<div class="sec-head">⏳ Pending Requests</div>
+
+{% if pending %}
+<div class="ap-grid">
+  {% for p in pending %}
+  <div class="ap-card is-pending">
+    <div class="stripe stripe-p"></div>
+    <div class="ap-card-body">
+      <div class="ap-card-top">
+        <div class="ap-avatar av-p">{{ p.user.username|first|upper }}</div>
+        <div style="min-width:0;">
+          <div class="ap-name">{{ p.user.username }}</div>
+          <div class="ap-email">{{ p.user.email }}</div>
+        </div>
+      </div>
+      <div class="ap-badge badge-p"><span class="bdot"></span> Awaiting Approval</div>
+      <div class="ap-meta">
+        <div>
+          <div class="meta-key">Registered</div>
+          <div class="meta-val">{{ p.user.date_joined|date:"d M Y" }}</div>
+        </div>
+        <div>
+          <div class="meta-key">User ID</div>
+          <div class="meta-val">#{{ p.user.id }}</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">
+        Approving grants <strong style="color:var(--orange);">30 days</strong> of access from today.
+      </div>
+      <a href="{% url 'approve_admin' p.user.id %}" class="btn-approve">✓ Approve — Grant 30 Days</a>
+      <a href="{% url 'reject_admin' p.user.id %}" class="btn-reject"
+         onclick="return confirm('Remove {{ p.user.username }}? This cannot be undone.')">✕ Reject & Remove</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="ap-empty"><div class="ap-empty-text">✅ No pending requests — all caught up!</div></div>
+{% endif %}
+
+<!-- APPROVED -->
+<div class="sec-head">✓ Approved Admins</div>
+
+{% if approved %}
+<div class="ap-grid">
+  {% for a in approved %}
+
+{% if a.expired %}
+
+<div class="ap-card is-expired">
+    <div class="stripe stripe-e"></div>
+
+{% elif a.days_remaining is not None and a.days_remaining <= 7 %}
+
+<div class="ap-card is-approved">
+    <div class="stripe stripe-a"></div>
+
+{% else %}
+
+<div class="ap-card is-approved">
+    <div class="stripe stripe-a"></div>
+
+{% endif %}
+
+  <div class="ap-card {{ card_class }}">
+    <div class="stripe {{ stripe_class }}"></div>
+    <div class="ap-card-body">
+
+      <div class="ap-card-top">
+        <div class="ap-avatar {{ av_class }}">{{ a.user.username|first|upper }}</div>
+        <div style="min-width:0;">
+          <div class="ap-name">{{ a.user.username }}</div>
+          <div class="ap-email">{{ a.user.email }}</div>
+        </div>
+      </div>
+
+      <div class="ap-badge {{ badge_class }}"><span class="bdot"></span> {{ badge_text }}</div>
+
+      <div class="ap-meta">
+        <div>
+          <div class="meta-key">Joined</div>
+          <div class="meta-val">{{ a.user.date_joined|date:"d M Y" }}</div>
+        </div>
+        <div>
+          <div class="meta-key">Last Login</div>
+          <div class="meta-val">{{ a.user.last_login|date:"d M Y"|default:"Never" }}</div>
+        </div>
+        <div>
+          <div class="meta-key">Access Until</div>
+          <div class="meta-val">
+            {% if a.access_expires_on %}
+              {{ a.access_expires_on|date:"d M Y" }}
+            {% else %}
+              <span style="color:var(--muted);">Not set</span>
+            {% endif %}
+          </div>
+        </div>
+        <div>
+          <div class="meta-key">Days Left</div>
+          <div class="meta-val
+            {% if a.days_remaining is None %}{% elif a.days_remaining <= 0 %} days-dead{% elif a.days_remaining <= 7 %} days-warn{% else %} days-ok{% endif %}">
+            {% if a.days_remaining is None %}—
+            {% elif a.days_remaining <= 0 %}Expired
+            {% else %}{{ a.days_remaining }} days{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPIRY PROGRESS BAR -->
+      {% if a.access_expires_on %}
+      <div class="expiry-bar-wrap">
+        <div class="expiry-bar-label">
+          <span>Access period</span>
+          <span class="days-val
+            {% if a.days_remaining <= 0 %}days-dead{% elif a.days_remaining <= 7 %}days-warn{% else %}days-ok{% endif %}">
+            {% if a.days_remaining <= 0 %}Expired{% else %}{{ a.days_remaining }} days left{% endif %}
+          </span>
+        </div>
+        <div class="expiry-bar-track">
+          {% if a.days_remaining <= 0 %}
+            <div class="expiry-bar-fill fill-dead" style="width:100%;"></div>
+          {% elif a.days_remaining <= 7 %}
+            <div class="expiry-bar-fill fill-warn" style="width:{{ a.days_remaining|add:'0' }}0%;max-width:100%;"></div>
+          {% else %}
+            <div class="expiry-bar-fill fill-ok" style="width:{% widthratio a.days_remaining 30 100 %}%;"></div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- ACTION BUTTONS -->
+      {% if a.expired %}
+        <a href="{% url 'renew_admin' a.user.id %}" class="btn-reactivate"
+           onclick="return confirm('Reactivate {{ a.user.username }} for 30 days?')">
+          🔄 Reactivate — Grant 30 Days
+        </a>
+      {% else %}
+        <a href="{% url 'renew_admin' a.user.id %}" class="btn-renew"
+           onclick="return confirm('Renew {{ a.user.username }} for 30 more days?')">
+          🔄 Renew +30 Days
+        </a>
+      {% endif %}
+      <a href="{% url 'reject_admin' a.user.id %}" class="btn-reject"
+         onclick="return confirm('Remove {{ a.user.username }} permanently?')">✕ Revoke Access</a>
+
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+{% else %}
+<div class="ap-empty"><div class="ap-empty-text">No approved admins yet.</div></div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<style>
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc:after {
+        display: none !important;
+    }
+
+    .table {
+        color: #fff !important;
+        background-color: #1a1a1a !important;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #444 !important;
+    }
+
+    .thead-dark th {
+        background-color: #ff6600 !important;
+        color: #000 !important;
+        font-weight: 600;
+    }
+
+    .btn-danger {
+        background-color: #cc0000 !important;
+        border: none;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center text-warning mb-4">Plans</h2>
+
+    <table id="planTable" class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Plan Name</th>
+                <th>Amount</th>
+                <th>Duration</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for plan in plans %}
+            <tr>
+                <td>{{ plan.name }}</td>
+                <td>{{ plan.amount }}</td>
+                <td>{{ plan.duration }}</td>
+                <td>{{ plan.description|default:"-" }}</td>
+                <td>
+                    <a href="{% url 'delete_plan' plan.id %}" class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#planTable').DataTable({
+        "ordering": false,
+        "pageLength": 10
+    });
+});
+</script>
+
+{% endblock %}

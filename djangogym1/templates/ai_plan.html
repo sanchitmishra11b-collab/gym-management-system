@@ -1,0 +1,74 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">
+    AI Generated Plan for {{ member_name|title }}
+  </h2>
+
+  <div class="card shadow-lg p-4 mb-5">
+    <h4 class="text-success">💪 Workout Plan ({{ plan|title }})</h4>
+    <ul class="list-group list-group-flush">
+      {% for exercise in workout_plan %}
+      <li class="list-group-item">{{ exercise }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card shadow-lg p-4 mb-5">
+    <h4 class="text-info">🥗 Diet Plan</h4>
+    <ul class="list-group list-group-flush">
+      {% for item in diet_plan %}
+      <li class="list-group-item">{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="text-center">
+    <a href="{% url 'view_member' %}" class="btn btn-outline-primary">
+      ← Back to Members
+    </a>
+  </div>
+</div>
+
+<style>
+
+/* Make card background solid */
+.card {
+    background-color: #ffffff !important;
+    color: #000 !important;
+    border-radius: 12px;
+}
+
+/* Fix text inside cards */
+.card h2,
+.card h4 {
+    color: #000 !important;  
+}
+
+/* Force Bootstrap colored text to dark inside cards */
+.card .text-primary,
+.card .text-info,
+.card .text-success {
+    color: #000 !important;
+}
+
+/* List items readable */
+.list-group-item {
+    background-color: #f7f7f7 !important;
+    color: #000 !important;
+}
+
+/* Back button */
+.btn-outline-primary {
+    color: #000 !important;
+    border-color: #000 !important;
+}
+.btn-outline-primary:hover {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+</style>
+
+
+{% endblock %}

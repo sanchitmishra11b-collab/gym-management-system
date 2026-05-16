@@ -1,0 +1,51 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+
+<div class="container mt-4">
+
+    <h2 class="text-center fw-bold mb-4" style="color: #ff7a00;">
+        🏋️ Trainer Dashboard
+    </h2>
+
+    <div class="card shadow-lg p-4 mt-4" style="border-top: 4px solid #ff7a00; background: #fff8f0;">
+
+        <h4 style="color: #333; font-weight: 700;">
+            Welcome, {{ request.user.username|title }} 👋
+        </h4>
+        <p style="color: #666;">Here are your assigned members.</p>
+
+        <hr style="border-color: #ff7a00;">
+
+        {% if members %}
+            <table class="table table-bordered mt-3">
+                <thead style="background: #ff7a00; color: white;">
+                    <tr>
+                        <th>Name</th>
+                        <th>Plan</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in members %}
+                    <tr style="background: #ffffff;">
+                        <td style="color: #111; font-weight: 700; font-size: 1rem;">{{ m.name }}</td>
+                        <td style="color: #444; font-weight: 500;">{{ m.plan }}</td>
+                        <td>
+                            {% if m.status == 'Expired' %}
+                                <span class="badge bg-danger">Expired</span>
+                            {% else %}
+                                <span class="badge bg-success">Active</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color: #ef4444; font-weight: 600;">No members assigned yet.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

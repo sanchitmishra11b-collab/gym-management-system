@@ -1,0 +1,16 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+<div class="text-center" style="margin-top:80px;">
+  <div class="card card-ghost mx-auto" style="max-width:720px; padding:28px;">
+    <h2 class="text-primary">👋 Welcome!</h2>
+    <p class="lead">Today is {{ today|date:"l, F j, Y" }}</p>
+    <p>
+      <a class="btn btn-primary mr-2" href="{% url 'login' %}">Admin Login</a>
+      <a class="btn btn-outline-secondary" href="{% url 'about' %}">About</a>
+      <a class="btn btn-outline-secondary" href="{% url 'contact' %}">Contact</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+
