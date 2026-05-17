@@ -113,67 +113,35 @@ def Index(request):
 # ─────────────────────────────────────────────────────────
 
 def Login(request):
-
-    
-
     if request.method == "POST":
-
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
-
-            # SUPERADMIN LOGIN
+            # superuser bypasses everything
             if user.is_superuser:
                 login(request, user)
                 return redirect('home')
 
-            # NORMAL APPROVED ADMINS
-            elif user.is_staff:
-
+            if user.is_staff:
                 try:
                     profile = AdminProfile.objects.get(user=user)
-
                     if not profile.is_approved:
-                        messages.error(
-                            request,
-                            "Your account is pending approval."
-                        )
+                        messages.error(request, "Your account is pending approval.")
                         return redirect('login')
-
                     if profile.is_access_expired():
-                        messages.error(
-                            request,
-                            "Access expired. Contact superadmin."
-                        )
+                        messages.error(request, "Your access has expired.")
                         return redirect('login')
-
                     login(request, user)
                     return redirect('home')
-
                 except AdminProfile.DoesNotExist:
-                    messages.error(
-                        request,
-                        "Admin profile missing."
-                    )
-
+                    messages.error(request, "No admin profile found.")
             else:
-                messages.error(
-                    request,
-                    "Not authorized."
-                )
-
+                messages.error(request, "Not authorized as admin.")
         else:
-            messages.error(
-                request,
-                "Invalid username or password."
-            )
+            messages.error(request, "Invalid username or password.")
 
     return render(request, 'login.html')
 
