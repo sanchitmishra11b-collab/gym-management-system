@@ -17,14 +17,15 @@
 
         /* ── VIDEO BG ── */
         .bg-video {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            object-fit: cover; /* ← cover not contain — fills screen properly */
-            z-index: -2;
-            background: #000;
-        }
-
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    object-fit: cover;
+    object-position: center center; /* ← controls zoom position */
+    z-index: -2;
+    background: #111;
+}
+        
         /* ── OVERLAY ── */
         .overlay {
             position: fixed;
@@ -197,18 +198,46 @@
             .stat-divider { display: none; }
         }
 
+        @media (max-width: 480px) {
+    .bg-video {
+        object-fit: cover;
+        object-position: 70% center; /* shift focus to right side where gym action usually is */
+    }
+}
+
         /* ── TABLET ── */
         @media (min-width: 481px) and (max-width: 768px) {
             .content { padding: 20px; }
         }
+
+        /* show dark bg instantly before video loads */
+body {
+    background: #111 !important;
+}
+
+.bg-video {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.bg-video.loaded {
+    opacity: 1;
+}
     </style>
 </head>
 <body>
 
     <!-- Background Video -->
-    <video autoplay muted loop playsinline class="bg-video">
-        <source src="{% static 'videos/gym_bg1.mp4' %}" type="video/mp4">
-    </video>
+    <video 
+    autoplay 
+    muted 
+    loop 
+    playsinline 
+    preload="auto"
+    class="bg-video"
+    poster="{% static 'videos/gym_poster.jpg' %}">
+    <source src="{% static 'videos/gym_bg1.mp4' %}" type="video/mp4">
+</video>
 
     <!-- Overlay -->
     <div class="overlay"></div>
@@ -250,6 +279,15 @@
 
     <!-- Footer -->
     <footer>© 2025 GymOS · Built for gym efficiency 💪</footer>
-
+<script>
+    var video = document.querySelector('.bg-video');
+    video.addEventListener('canplay', function() {
+        video.classList.add('loaded');
+    });
+    // fallback — show after 1.5s even if canplay doesn't fire
+    setTimeout(function() {
+        video.classList.add('loaded');
+    }, 1500);
+</script>
 </body>
 </html>

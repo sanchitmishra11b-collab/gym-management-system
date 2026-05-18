@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-*&h=d2113+#%mgwmw(@$ec7vr26ffa_g_7sw+vc^wgu0^juv3c')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://sanchit-gym-system.up.railway.app']
+
 # ── EMAIL ──
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -43,7 +43,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangogym.urls'
 
-# ── TEMPLATES (only once) ──
+# ── TEMPLATES ──
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -63,7 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangogym.wsgi.application'
 
-# ── DATABASE (SQLite locally, Postgres on Railway automatically) ──
+# ── DATABASE ──
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
@@ -87,7 +87,7 @@ USE_TZ = True
 
 # ── STATIC FILES ──
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'djangogym1', 'static')]  # ← fixed path
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'djangogym1', 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -95,8 +95,15 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CSRF_TRUSTED_ORIGINS = [os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost')]
-
-
+# ── CSRF & SESSION ──
+CSRF_TRUSTED_ORIGINS = [
+    'https://sanchit-gym-system.up.railway.app',
+    'http://localhost',
+    'http://127.0.0.1',
+]
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
