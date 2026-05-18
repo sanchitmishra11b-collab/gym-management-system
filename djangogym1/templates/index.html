@@ -8,6 +8,45 @@
     gap: 16px;
     margin-bottom: 28px;
 }
+
+@media (max-width: 480px) {
+    /* stat cards — 2 per row on phone */
+    .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+    /* stat numbers smaller */
+    .stat-card .stat-num { font-size: 28px; }
+    .stat-card .stat-icon { font-size: 20px; margin-bottom: 6px; }
+    .stat-card { padding: 14px 12px; border-radius: 10px; }
+    .stat-card .stat-label { font-size: 9px; letter-spacing: 1px; }
+    .stat-card .stat-sub { font-size: 10px; }
+
+    /* welcome header */
+    .dash-header { padding: 16px; flex-direction: column; gap: 12px; }
+    .dash-hello { font-size: 24px; }
+    .dash-quote { font-size: 11px; }
+    .dash-header .btn { width: 100%; text-align: center; }
+
+    /* bottom grid single column */
+    .bottom-grid { grid-template-columns: 1fr; }
+    .chart-wrap { grid-column: span 1; padding: 14px; }
+    .alerts-panel { padding: 14px; }
+
+    /* chart tabs smaller */
+    .chart-tab { font-size: 11px; padding: 5px 12px; }
+
+    /* voice button smaller */
+    .voice-btn { width: 46px; height: 46px; font-size: 20px; bottom: 16px; right: 16px; }
+    .voice-help { display: none; } /* hide on mobile */
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    /* tablet — 2 column stat grid */
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .chart-wrap { grid-column: span 1; }
+    .dash-hello { font-size: 30px; }
+}
+
 @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2,1fr); } }
 @media (max-width: 500px) { .stat-grid { grid-template-columns: 1fr; } }
 

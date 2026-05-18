@@ -43,7 +43,40 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--black); }
         ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+/* ══ MOBILE SIZE FIXES ══ */
+@media (max-width: 480px) {
+    /* base font smaller */
+    body { font-size: 13px; }
 
+    /* navbar brand smaller */
+    .brand-text { font-size: 16px; }
+    .brand-icon { width: 28px; height: 28px; font-size: 13px; }
+    .nav-inner { height: 52px; padding: 0 14px; }
+
+    /* page content tighter */
+    .page-wrap { padding: 10px 8px 60px; }
+
+    /* headings smaller */
+    .page-title { font-size: 24px; }
+    .section-title { font-size: 10px; }
+
+    /* cards smaller padding */
+    .g-card { border-radius: 10px; }
+
+    /* buttons full width on mobile */
+    .btn { font-size: 13px; padding: 8px 14px; }
+
+    /* forms */
+    .form-control { font-size: 13px; padding: 9px 11px; }
+    label { font-size: 10px; }
+
+    /* table text smaller */
+    .table thead th { font-size: 10px; padding: 8px 10px; }
+    .table tbody td { font-size: 12px; padding: 8px 10px; }
+
+    /* alerts smaller */
+    .alert { font-size: 12px; padding: 8px 12px; }
+}
         /* ══ NAVBAR ══ */
         .gymos-nav {
             background: var(--surface);
@@ -672,6 +705,7 @@ if (toggler && drawer) {
     });
 }
 </script>
+
 
 </body>
 </html>
