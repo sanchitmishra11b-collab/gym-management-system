@@ -112,34 +112,52 @@ def Index(request):
 # AUTHENTICATION
 # ─────────────────────────────────────────────────────────
 
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from djangogym1.models import AdminProfile
+
 def Login(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = request.POST.get("username").strip()
+        password = request.POST.get("password").strip()
+
+        print("USERNAME:", username)
+        print("PASSWORD:", password)
 
         user = authenticate(request, username=username, password=password)
 
+        print("USER:", user)
+
         if user is not None:
-            # superuser bypasses everything
+
+            # SUPERADMIN DIRECT LOGIN
             if user.is_superuser:
                 login(request, user)
                 return redirect('home')
 
+            # STAFF LOGIN
             if user.is_staff:
                 try:
                     profile = AdminProfile.objects.get(user=user)
+
                     if not profile.is_approved:
                         messages.error(request, "Your account is pending approval.")
                         return redirect('login')
+
                     if profile.is_access_expired():
                         messages.error(request, "Your access has expired.")
                         return redirect('login')
+
                     login(request, user)
                     return redirect('home')
+
                 except AdminProfile.DoesNotExist:
-                    messages.error(request, "No admin profile found.")
-            else:
-                messages.error(request, "Not authorized as admin.")
+                    messages.error(request, "Admin profile not found.")
+                    return redirect('login')
+
+            messages.error(request, "Not authorized.")
+
         else:
             messages.error(request, "Invalid username or password.")
 
