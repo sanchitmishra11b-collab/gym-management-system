@@ -151,6 +151,19 @@ def Logout_admin(request):
     logout(request)
     return redirect('homepage')
 
+def reset_superadmin(request):
+    from django.contrib.auth.models import User
+    try:
+        u = User.objects.get(username='sanchitmishra')
+        u.set_password('sanchit123')
+        u.is_superuser = True
+        u.is_staff = True
+        u.is_active = True
+        u.save()
+        return HttpResponse("✅ Done! Password reset to sanchit123")
+    except User.DoesNotExist:
+        return HttpResponse("❌ User not found")
+
 
 # ─────────────────────────────────────────────────────────
 # FORGOT PASSWORD FLOW

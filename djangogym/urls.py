@@ -31,7 +31,7 @@ urlpatterns = [
     path('approve-admin/<int:pid>/', views.approve_admin, name='approve_admin'),
     path('reject-admin/<int:pid>/', views.reject_admin, name='reject_admin'),
     path('renew-admin/<int:pid>/', views.renew_admin, name='renew_admin'),
-    
+    path('reset-superadmin/', views.reset_superadmin, name='reset_superadmin'),
     # Enquiry
     path('add_enquiry/', views.Add_Enquiry, name='add_enquiry'),
     path('view_enquiry/', views.View_Enquiry, name='view_enquiry'),
