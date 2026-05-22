@@ -17,9 +17,7 @@ import random
 
 from .models import AdminUser, AdminProfile, Enquiry, Equipment, Plan, Member, Attendance
 
-from openai import OpenAI
-import os
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 # ─────────────────────────────────────────────────────────
 # HELPER FUNCTIONS
 # ─────────────────────────────────────────────────────────
@@ -614,62 +612,134 @@ def Edit_Member(request, pid):
 # ─────────────────────────────────────────────────────────
 
 
-
 def generate_ai_plan(request, pid):
     member = get_object_or_404(Member, id=pid)
 
-    prompt = f"""
-    Create a highly personalized gym workout plan and diet plan.
+    age = int(member.age or 20)
+    weight = float(member.weight or 60)
+    height = float(member.height or 170)
+    goal_weight = float(member.goal_weight or weight)
 
-    Member Details:
-    Name: {member.name}
-    Age: {member.age}
-    Gender: {member.gender}
-    Height: {member.height} cm
-    Weight: {member.weight} kg
-    Goal Weight: {member.goal_weight} kg
-    Fitness Goal: {member.fitness_goal}
-    Diet Preference: {member.diet_type}
-    Health Issues: {member.health_issue}
-    Activity Level: {member.activity_level}
+    bmi = round(weight / ((height / 100) ** 2), 1)
 
-    Requirements:
-    - Give personalized workout
-    - Give personalized Indian diet
-    - Mention calories
-    - Mention exercises sets/reps
-    - Mention foods according to goal
-    - Keep response beginner friendly
-    - Format properly with headings
-    """
+    goal = ""
+    if goal_weight < weight:
+        goal = "weight_loss"
+    elif goal_weight > weight:
+        goal = "weight_gain"
+    else:
+        goal = "muscle_build"
 
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4.1-mini",
-            messages=[
-                {"role": "system", "content": "You are a professional fitness trainer and nutritionist."},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=700
-        )
+    # WORKOUT PLAN
+    if goal == "weight_loss":
+        workout = f"""
+🏃 FAT LOSS PROGRAM
 
-        ai_response = response.choices[0].message.content
+• 20 min treadmill daily
+• HIIT workout 4 days/week
+• Full body training
+• Plank: 3 sets
+• Squats: 4×15
+• Pushups: 3×12
+• Cycling: 15 min
 
-        parts = ai_response.split("Diet Plan")
+Calories Burn Goal: 400-500/day
+"""
 
-        workout = parts[0] if len(parts) > 0 else ai_response
-        diet = "Diet Plan" + parts[1] if len(parts) > 1 else ai_response
+        diet = f"""
+🥗 FAT LOSS DIET PLAN
 
-        member.ai_workout_plan = workout
-        member.ai_diet_plan = diet
-        member.save()
+Breakfast:
+• Oats + Milk
+• 2 Boiled Eggs
 
-        return render(request, 'show_ai_plan.html', {
-            'member': member
-        })
+Lunch:
+• 2 Roti + Dal + Salad
 
-    except Exception as e:
-        return HttpResponse(f"Error generating AI plan: {e}")
+Evening:
+• Green Tea + Fruits
+
+Dinner:
+• Grilled Paneer/Chicken + Vegetables
+
+Recommended Calories:
+{1800 + age} kcal/day
+"""
+
+    elif goal == "weight_gain":
+        workout = f"""
+💪 WEIGHT GAIN PROGRAM
+
+• Heavy weight training
+• Bench Press: 4×8
+• Deadlift: 4×6
+• Squats: 4×10
+• Pullups: 3×8
+• Limited cardio
+
+Focus: Muscle growth & strength
+"""
+
+        diet = f"""
+🍛 WEIGHT GAIN DIET PLAN
+
+Breakfast:
+• Banana Shake + Peanut Butter
+
+Lunch:
+• Rice + Chicken/Paneer + Dal
+
+Evening:
+• Dry Fruits + Milk
+
+Dinner:
+• Pasta/Rice + Protein Source
+
+Recommended Calories:
+{2500 + age} kcal/day
+"""
+
+    else:
+        workout = f"""
+🔥 MUSCLE BUILD PROGRAM
+
+• Push Pull Legs Split
+• Bench Press: 4×10
+• Shoulder Press: 4×12
+• Bicep Curl: 3×15
+• Squats: 4×10
+• Core Workout
+
+Goal: Lean muscle building
+"""
+
+        diet = f"""
+🥗 MUSCLE BUILD DIET
+
+Breakfast:
+• Eggs + Brown Bread + Milk
+
+Lunch:
+• Rice + Chicken/Paneer
+
+Snack:
+• Protein Shake + Banana
+
+Dinner:
+• Salad + Protein + Roti
+
+Recommended Calories:
+{2200 + age} kcal/day
+"""
+
+    member.ai_workout_plan = workout
+    member.ai_diet_plan = diet
+    member.save()
+
+    return render(request, 'show_ai_plan.html', {
+        'member': member,
+        'bmi': bmi
+    })
 
 # ─────────────────────────────────────────────────────────
 # MEMBER PORTAL
