@@ -17,6 +17,9 @@ import random
 
 from .models import AdminUser, AdminProfile, Enquiry, Equipment, Plan, Member, Attendance
 
+from openai import OpenAI
+import os
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ─────────────────────────────────────────────────────────
 # HELPER FUNCTIONS
 # ─────────────────────────────────────────────────────────
@@ -529,10 +532,16 @@ def Add_Member(request):
                 weight=request.POST.get('weight') or None,
                 goal_weight=request.POST.get('goal_weight') or None,
                 health_issue=request.POST.get('health_issue') or "",
-                first_login=True
+fitness_goal=request.POST.get('fitness_goal') or "",
+diet_type=request.POST.get('diet_type') or "",
+activity_level=request.POST.get('activity_level') or "moderate",
+first_login=True
             )
-
-            messages.success(request, f"Member '{name}' added! Temp password: {temp_password}")
+            messages.success(
+    request,
+    f"Member added successfully! Username: {username} | Password: {temp_password}"
+)
+           
             error = "no"
         except Exception as e:
             print("Add_Member error:", e)
@@ -604,69 +613,63 @@ def Edit_Member(request, pid):
 # AI PLAN
 # ─────────────────────────────────────────────────────────
 
+
+
 def generate_ai_plan(request, pid):
     member = get_object_or_404(Member, id=pid)
 
-    age = member.age or 25
-    weight = float(member.weight or 60)
-    height_m = float(member.height or 170) / 100
-    goal_weight = float(member.goal_weight or weight)
-    activity = (member.activity_level or "moderate").lower()
+    prompt = f"""
+    Create a highly personalized gym workout plan and diet plan.
+
+    Member Details:
+    Name: {member.name}
+    Age: {member.age}
+    Gender: {member.gender}
+    Height: {member.height} cm
+    Weight: {member.weight} kg
+    Goal Weight: {member.goal_weight} kg
+    Fitness Goal: {member.fitness_goal}
+    Diet Preference: {member.diet_type}
+    Health Issues: {member.health_issue}
+    Activity Level: {member.activity_level}
+
+    Requirements:
+    - Give personalized workout
+    - Give personalized Indian diet
+    - Mention calories
+    - Mention exercises sets/reps
+    - Mention foods according to goal
+    - Keep response beginner friendly
+    - Format properly with headings
+    """
 
     try:
-        bmi = round(weight / (height_m ** 2), 2)
-    except:
-        bmi = 0
+        response = client.chat.completions.create(
+            model="gpt-4.1-mini",
+            messages=[
+                {"role": "system", "content": "You are a professional fitness trainer and nutritionist."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=700
+        )
 
-    if bmi >= 25:
-        bmi_status, bmi_class = "Overweight", "danger"
-    elif bmi >= 18.5:
-        bmi_status, bmi_class = "Normal", "success"
-    else:
-        bmi_status, bmi_class = "Underweight", "warning"
+        ai_response = response.choices[0].message.content
 
-    if goal_weight > weight:
-        goal = "weight_gain"
-    elif goal_weight < weight:
-        goal = "weight_loss"
-    else:
-        goal = "muscle_build"
+        parts = ai_response.split("Diet Plan")
 
-    base_calories = 22 * weight
-    if activity == "high":
-        calories = base_calories * 1.5
-    elif activity == "low":
-        calories = base_calories * 1.2
-    else:
-        calories = base_calories * 1.35
+        workout = parts[0] if len(parts) > 0 else ai_response
+        diet = "Diet Plan" + parts[1] if len(parts) > 1 else ai_response
 
-    if goal == "weight_loss":
-        calories -= 400
-    elif goal == "weight_gain":
-        calories += 400
-    calories = int(calories)
+        member.ai_workout_plan = workout
+        member.ai_diet_plan = diet
+        member.save()
 
-    if goal == "weight_loss":
-        workout = f"\n🏃 FAT LOSS PROGRAM (Age {age})\n• Cardio: 25 min treadmill daily\n• HIIT: 3 days/week\n• Strength: Full body (3×12 reps)\n• Steps target: 8,000/day\n"
-        diet = f"\n🥗 FAT LOSS DIET (~{calories} kcal)\n• High protein (eggs, paneer, dal)\n• Oats + vegetables\n• Avoid sugar & fried food\n• 3L water daily\n"
-    elif goal == "weight_gain":
-        workout = f"\n🍽️ WEIGHT GAIN PROGRAM (Age {age})\n• Heavy compound lifts (5×5)\n• Chest/Back/Leg split\n• Rest between sets: 90 sec\n• Minimal cardio (5–10 min warm-up)\n"
-        diet = f"\n🍛 WEIGHT GAIN DIET (~{calories} kcal)\n• Milk, banana, peanut butter\n• Rice + potato + ghee\n• 5 meals/day\n• Protein shake after workout\n"
-    else:
-        workout = f"\n💪 MUSCLE BUILD PROGRAM (Age {age})\n• Push/Pull/Leg split\n• Progressive overload weekly\n• Protein timing post-workout\n• Core training 3×/week\n"
-        diet = f"\n🥗 MUSCLE BUILD DIET (~{calories} kcal)\n• Protein: 1.6g × body weight\n• Chicken/paneer/soybean\n• Complex carbs + healthy fats\n• Post-workout carbs mandatory\n"
+        return render(request, 'show_ai_plan.html', {
+            'member': member
+        })
 
-    member.ai_workout_plan = workout
-    member.ai_diet_plan = diet
-    member.save()
-
-    return render(request, 'show_ai_plan.html', {
-        'member': member,
-        'bmi': bmi,
-        'bmi_status': bmi_status,
-        'bmi_class': bmi_class
-    })
-
+    except Exception as e:
+        return HttpResponse(f"Error generating AI plan: {e}")
 
 # ─────────────────────────────────────────────────────────
 # MEMBER PORTAL
