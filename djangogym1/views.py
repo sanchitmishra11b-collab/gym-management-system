@@ -120,45 +120,31 @@ from djangogym1.models import AdminProfile
 
 def Login(request):
     if request.method == "POST":
-        username = request.POST.get("username").strip()
-        password = request.POST.get("password").strip()
-
-        print("USERNAME:", username)
-        print("PASSWORD:", password)
+        username = request.POST.get("username", "").strip()  # ← remove .lower()
+        password = request.POST.get("password", "").strip()
 
         user = authenticate(request, username=username, password=password)
 
-        print("USER:", user)
-
         if user is not None:
-
-            # SUPERADMIN DIRECT LOGIN
             if user.is_superuser:
                 login(request, user)
                 return redirect('home')
 
-            # STAFF LOGIN
             if user.is_staff:
                 try:
                     profile = AdminProfile.objects.get(user=user)
-
                     if not profile.is_approved:
                         messages.error(request, "Your account is pending approval.")
                         return redirect('login')
-
                     if profile.is_access_expired():
                         messages.error(request, "Your access has expired.")
                         return redirect('login')
-
                     login(request, user)
                     return redirect('home')
-
                 except AdminProfile.DoesNotExist:
                     messages.error(request, "Admin profile not found.")
                     return redirect('login')
-
             messages.error(request, "Not authorized.")
-
         else:
             messages.error(request, "Invalid username or password.")
 
@@ -747,14 +733,13 @@ Recommended Calories:
 
 def member_login(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = request.POST.get("username", "").strip()  # ← no .lower()
+        password = request.POST.get("password", "").strip()
         user = authenticate(request, username=username, password=password)
 
         if user is not None and not user.is_staff:
             login(request, user)
             member = Member.objects.filter(member_user=user).first()
-
             if member and member.first_login:
                 return redirect("set_member_password")
             if member and member.role and member.role.upper() == "TRAINER":
