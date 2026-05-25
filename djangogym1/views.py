@@ -133,22 +133,41 @@ def Login(request):
             if user.is_staff:
                 try:
                     profile = AdminProfile.objects.get(user=user)
+
                     if not profile.is_approved:
                         messages.error(request, "Your account is pending approval.")
                         return redirect('login')
+
+                    # Grace period — let them in but warn them
+                    if profile.is_in_grace_period():
+                        login(request, user)
+                        days_grace_left = (
+                            profile.access_expires_on +
+                            timedelta(days=profile.grace_period_days) -
+                            date.today()
+                        ).days
+                        messages.warning(request,
+                            f"⚠️ Your access expired! You have {days_grace_left} grace day(s) left. Contact admin to renew.")
+                        return redirect('home')
+
+                    # Fully expired
                     if profile.is_access_expired():
-                        messages.error(request, "Your access has expired.")
+                        messages.error(request,
+                            "Your access has expired. Contact the superadmin to renew.")
                         return redirect('login')
+
                     login(request, user)
                     return redirect('home')
+
                 except AdminProfile.DoesNotExist:
                     messages.error(request, "Admin profile not found.")
                     return redirect('login')
-            messages.error(request, "Not authorized.")
+            else:
+                messages.error(request, "You do not have permission to access this section.")
+                return redirect('login')
         else:
             messages.error(request, "Invalid username or password.")
-
-    return render(request, 'login.html')
+            return redirect('login')
 
 
 def Logout_admin(request):
@@ -332,17 +351,24 @@ def renew_admin(request, pid):
         return redirect('home')
     try:
         profile = AdminProfile.objects.get(user__id=pid)
+        plan = request.GET.get('plan', profile.plan_type or 'monthly')
+        duration = {'monthly': 30, 'quarterly': 90, 'yearly': 365}.get(plan, 30)
+
         today = date.today()
-        # Extend from current expiry if still active, else from today
-        base = profile.access_expires_on if (profile.access_expires_on and profile.access_expires_on > today) else today
-        profile.access_expires_on = base + timedelta(days=30)
-        # Reactivate if was expired
+        base = profile.access_expires_on if (
+            profile.access_expires_on and profile.access_expires_on > today
+        ) else today
+
+        profile.access_expires_on = base + timedelta(days=duration)
+        profile.plan_type = plan
         profile.is_approved = True
-        profile.user.is_staff  = True
+        profile.user.is_staff = True
         profile.user.is_active = True
         profile.user.save()
         profile.save()
-        messages.success(request, f"🔄 {profile.user.username} renewed — access until {profile.access_expires_on}.")
+
+        messages.success(request,
+            f"✅ {profile.user.username} renewed ({plan}) — access until {profile.access_expires_on}.")
     except AdminProfile.DoesNotExist:
         messages.error(request, "Admin not found.")
     return redirect('approve_admins')

@@ -187,19 +187,34 @@ class AdminUser(models.Model):
 from django.contrib.auth.models import User
 from django.db import models
 
-from datetime import date
+from datetime import date, timedelta
 
 class AdminProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_approved = models.BooleanField(default=False)
-    access_expires_on = models.DateField(null=True, blank=True)  # ← ADD THIS
+    access_expires_on = models.DateField(null=True, blank=True)
+    plan_type = models.CharField(max_length=20, default='monthly',
+                choices=[('monthly','Monthly'),('quarterly','Quarterly'),('yearly','Yearly')])
+    grace_period_days = models.IntegerField(default=3)  # 3 day grace after expiry
 
     def is_access_expired(self):
         if not self.access_expires_on:
             return False
-        return self.access_expires_on < date.today()
+        # grace period — 3 extra days after expiry
+        grace_until = self.access_expires_on + timedelta(days=self.grace_period_days)
+        return date.today() > grace_until
+
+    def is_in_grace_period(self):
+        if not self.access_expires_on:
+            return False
+        return self.access_expires_on < date.today() <= (
+            self.access_expires_on + timedelta(days=self.grace_period_days)
+        )
 
     def days_left(self):
         if not self.access_expires_on:
             return None
         return (self.access_expires_on - date.today()).days
+
+    def plan_duration_days(self):
+        return {'monthly': 30, 'quarterly': 90, 'yearly': 365}.get(self.plan_type, 30)

@@ -389,27 +389,85 @@
       {% endif %}
 
       <!-- ACTION BUTTONS -->
-      {% if a.expired %}
-        <a href="{% url 'renew_admin' a.user.id %}" class="btn-reactivate"
-           onclick="return confirm('Reactivate {{ a.user.username }} for 30 days?')">
-          🔄 Reactivate — Grant 30 Days
-        </a>
-      {% else %}
-        <a href="{% url 'renew_admin' a.user.id %}" class="btn-renew"
-           onclick="return confirm('Renew {{ a.user.username }} for 30 more days?')">
-          🔄 Renew +30 Days
-        </a>
-      {% endif %}
-      <a href="{% url 'reject_admin' a.user.id %}" class="btn-reject"
-         onclick="return confirm('Remove {{ a.user.username }} permanently?')">✕ Revoke Access</a>
+<!-- ACTION BUTTONS -->
 
-    </div>
-  </div>
+{% if a.expired %}
 
-  {% endfor %}
+<div style="display:flex;gap:6px;flex-wrap:wrap;">
+
+    <!-- 30 DAYS -->
+    <a href="{% url 'renew_admin' a.user.id %}?plan=monthly"
+       class="btn-reactivate"
+       style="flex:1;text-align:center;font-size:11px;"
+       onclick="return confirm('Reactivate {{ a.user.username }} for 30 days?')">
+        🔄 +30 Days
+    </a>
+
+    <!-- 90 DAYS -->
+    <a href="{% url 'renew_admin' a.user.id %}?plan=quarterly"
+       class="btn-reactivate"
+       style="flex:1;text-align:center;font-size:11px;
+              background:rgba(59,130,246,.1);
+              color:#3b82f6;
+              border-color:rgba(59,130,246,.3);"
+       onclick="return confirm('Reactivate {{ a.user.username }} for 90 days?')">
+        🔄 +90 Days
+    </a>
+
+    <!-- 1 YEAR -->
+    <a href="{% url 'renew_admin' a.user.id %}?plan=yearly"
+       class="btn-reactivate"
+       style="flex:1;text-align:center;font-size:11px;
+              background:rgba(34,197,94,.1);
+              color:#22c55e;
+              border-color:rgba(34,197,94,.3);"
+       onclick="return confirm('Reactivate {{ a.user.username }} for 1 year?')">
+        🔄 +1 Year
+    </a>
+
 </div>
+
 {% else %}
-<div class="ap-empty"><div class="ap-empty-text">No approved admins yet.</div></div>
+
+<div style="display:flex;gap:6px;flex-wrap:wrap;">
+
+    <!-- 30 DAYS -->
+    <a href="{% url 'renew_admin' a.user.id %}?plan=monthly"
+       class="btn-renew"
+       style="flex:1;text-align:center;font-size:11px;"
+       onclick="return confirm('Renew {{ a.user.username }} for 30 days?')">
+        +30 Days
+    </a>
+
+    <!-- 90 DAYS -->
+    <a href="{% url 'renew_admin' a.user.id %}?plan=quarterly"
+       class="btn-renew"
+       style="flex:1;text-align:center;font-size:11px;
+              background:rgba(59,130,246,.1);
+              color:#3b82f6;
+              border-color:rgba(59,130,246,.3);"
+       onclick="return confirm('Renew {{ a.user.username }} for 90 days?')">
+        +90 Days
+    </a>
+
+    <!-- 1 YEAR -->
+    <a href="{% url 'renew_admin' a.user.id %}?plan=yearly"
+       class="btn-renew"
+       style="flex:1;text-align:center;font-size:11px;
+              background:rgba(34,197,94,.1);
+              color:#22c55e;
+              border-color:rgba(34,197,94,.3);"
+       onclick="return confirm('Renew {{ a.user.username }} for 1 year?')">
+        +1 Year
+    </a>
+
+</div>
+
 {% endif %}
 
-{% endblock %}
+<!-- REMOVE ACCESS -->
+<a href="{% url 'reject_admin' a.user.id %}"
+   class="btn-reject"
+   onclick="return confirm('Remove {{ a.user.username }} permanently?')">
+    ✕ Revoke Access
+</a>
