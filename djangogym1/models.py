@@ -65,57 +65,86 @@ from django.utils import timezone
 
 class Member(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     member_user = models.OneToOneField(
-        User, on_delete=models.CASCADE, null=True, blank=True, related_name='member_profile'
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='member_profile'
     )
 
     name = models.CharField(max_length=100)
     contact = models.CharField(max_length=15)
     email = models.EmailField()
+
     age = models.IntegerField(null=True, blank=True)
     gender = models.CharField(max_length=10, null=True, blank=True)
 
     status = models.CharField(max_length=10, default="Active")
+
     joining_date = models.DateField(default=timezone.now)
     expiry_date = models.DateField(default=timezone.now)
 
-    plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True, blank=True)
+    plan = models.ForeignKey(
+        Plan,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
     initial_amount = models.IntegerField(default=0)
+
     height = models.FloatField(blank=True, null=True)
     weight = models.FloatField(blank=True, null=True)
     goal_weight = models.FloatField(blank=True, null=True)
+
     activity_level = models.CharField(max_length=20, default="moderate")
+
     health_issue = models.TextField(blank=True, null=True)
 
     ai_diet_plan = models.TextField(blank=True, null=True)
     ai_workout_plan = models.TextField(blank=True, null=True)
 
-    def days_left(self):
-        from datetime import date
-        if self.expiry_date:
-            return max((self.expiry_date - date.today()).days, 0)
-        return 0
-
-    profile_image = models.ImageField(upload_to='member_profiles/', null=True, blank=True)
+    profile_image = models.ImageField(
+        upload_to='member_profiles/',
+        null=True,
+        blank=True
+    )
 
     first_login = models.BooleanField(default=True)
+
     ROLE_CHOICES = (
-    ("ADMIN", "Admin"),
-    ("TRAINER", "Trainer"),
-    ("MEMBER", "Member"),
-)
+        ("ADMIN", "Admin"),
+        ("TRAINER", "Trainer"),
+        ("MEMBER", "Member"),
+    )
 
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="MEMBER")
+    role = models.CharField(
+        max_length=10,
+        choices=ROLE_CHOICES,
+        default="MEMBER"
+    )
 
-    fitness_goal = models.CharField(max_length=100, blank=True, null=True)
-    diet_type = models.CharField(max_length=100, blank=True, null=True)
+    fitness_goal = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
 
-def days_left(self):
-    from datetime import date
-    if self.expiry_date:
-        return max((self.expiry_date - date.today()).days, 0)
-    return 0
+    diet_type = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
 
+    def days_left(self):
+        from datetime import date
+
+        if self.expiry_date:
+            return max((self.expiry_date - date.today()).days, 0)
+
+        return 0
 
     def __str__(self):
         return f"{self.name} ({self.user.username if self.user else 'NoOwner'})"
@@ -123,7 +152,7 @@ def days_left(self):
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from .models import Member
+
 
 
 from django.db.models.signals import post_delete
@@ -166,12 +195,7 @@ class Attendance(models.Model):
     from django.contrib.auth.models import User
 from django.db import models
 
-class AdminProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_approved = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.user.username
     
 
 from django.db import models
