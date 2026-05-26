@@ -9,12 +9,16 @@ from django.dispatch import receiver
 
 @receiver(pre_save, sender=User)
 def check_email_for_admin(sender, instance, **kwargs):
-    """
-    Ensures every admin or superuser has an email before saving.
-    Prevents creation or update of admin without an email.
-    """
+
+    # Skip validation during initial creation
+    if not instance.pk:
+        return
+
+    # Only validate admins/superusers
     if (instance.is_staff or instance.is_superuser) and not instance.email:
-        raise ValidationError("Admin or Superuser must have a valid email address!")
+
+        # Instead of crashing entire admin
+        instance.email = f"{instance.username}@gym.local"
 
 # Create your models here.
 
