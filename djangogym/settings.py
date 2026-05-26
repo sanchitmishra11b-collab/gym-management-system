@@ -98,12 +98,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ── CSRF & SESSION ──
 CSRF_TRUSTED_ORIGINS = [
     'https://sanchit-gym-system.up.railway.app',
-    'http://localhost',
-    'http://127.0.0.1',
+    'http://*.up.railway.app',
 ]
-SESSION_COOKIE_SECURE = False 
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True 
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
