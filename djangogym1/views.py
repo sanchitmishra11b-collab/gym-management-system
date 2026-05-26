@@ -119,55 +119,105 @@ from django.shortcuts import render, redirect
 from djangogym1.models import AdminProfile
 
 def Login(request):
+
+    # If already logged in
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('home')
+
     if request.method == "POST":
-        username = request.POST.get("username", "").strip()  # ← remove .lower()
+
+        username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
 
         if user is not None:
+
+            # SUPERADMIN
             if user.is_superuser:
                 login(request, user)
                 return redirect('home')
 
+            # NORMAL ADMIN
             if user.is_staff:
+
                 try:
                     profile = AdminProfile.objects.get(user=user)
 
+                    # NOT APPROVED
                     if not profile.is_approved:
-                        messages.error(request, "Your account is pending approval.")
+                        messages.error(
+                            request,
+                            "Your account is pending approval."
+                        )
                         return redirect('login')
 
-                    # Grace period — let them in but warn them
+                    # GRACE PERIOD
                     if profile.is_in_grace_period():
+
                         login(request, user)
+
                         days_grace_left = (
                             profile.access_expires_on +
                             timedelta(days=profile.grace_period_days) -
                             date.today()
                         ).days
-                        messages.warning(request,
-                            f"⚠️ Your access expired! You have {days_grace_left} grace day(s) left. Contact admin to renew.")
+
+                        messages.warning(
+                            request,
+                            f"Your access expired! {days_grace_left} grace day(s) left."
+                        )
+
                         return redirect('home')
 
-                    # Fully expired
+                    # FULLY EXPIRED
                     if profile.is_access_expired():
-                        messages.error(request,
-                            "Your access has expired. Contact the superadmin to renew.")
+
+                        messages.error(
+                            request,
+                            "Your access has expired. Contact superadmin."
+                        )
+
                         return redirect('login')
 
+                    # SUCCESS LOGIN
                     login(request, user)
                     return redirect('home')
 
                 except AdminProfile.DoesNotExist:
-                    messages.error(request, "Admin profile not found.")
+
+                    messages.error(
+                        request,
+                        "Admin profile not found."
+                    )
+
                     return redirect('login')
+
             else:
-                messages.error(request, "You do not have permission to access this section.")
+
+                messages.error(
+                    request,
+                    "You do not have permission."
+                )
+
                 return redirect('login')
+
         else:
-            messages.error(request, "Invalid username or password.")
+
+            messages.error(
+                request,
+                "Invalid username or password."
+            )
+
             return redirect('login')
+
+    # IMPORTANT FIX
+    # THIS WAS MISSING
+    return render(request, 'login.html')
 
 
 def Logout_admin(request):
