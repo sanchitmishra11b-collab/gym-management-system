@@ -592,15 +592,15 @@ def Add_Member(request):
                 weight=request.POST.get('weight') or None,
                 goal_weight=request.POST.get('goal_weight') or None,
                 health_issue=request.POST.get('health_issue') or "",
-fitness_goal=request.POST.get('fitness_goal') or "",
-diet_type=request.POST.get('diet_type') or "",
-activity_level=request.POST.get('activity_level') or "moderate",
-first_login=True
+                fitness_goal=request.POST.get('fitness_goal') or "",
+                diet_type=request.POST.get('diet_type') or "",
+                activity_level=request.POST.get('activity_level') or "moderate",
+                first_login=True
             )
             messages.success(
-    request,
-    f"Member added successfully! Username: {username} | Password: {temp_password}"
-)
+                request,
+                f"Member added successfully! Username: {username} | Password: {temp_password}"
+            )
            
             error = "no"
         except Exception as e:
