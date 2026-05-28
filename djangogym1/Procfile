@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py shell -c "from django.contrib.auth.models import User; u=User.objects.get(username='sanchitmishra'); u.set_password('sanchit123'); u.is_superuser=True; u.is_staff=True; u.is_active=True; u.save(); print('password reset done')" && gunicorn djangogym.wsgi --log-file -
+web: python manage.py collectstatic --noinput && python manage.py migrate && gunicorn djangogym.wsgi --log-file -
