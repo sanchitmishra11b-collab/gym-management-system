@@ -336,3 +336,178 @@
 }
 
 {% endblock %}
+
+{% block body %}
+
+<!-- WELCOME HEADER -->
+<div class="dash-header">
+  <div>
+    <div class="dash-hello">Welcome back, <span>{{ request.user.username }}</span> 👋</div>
+    <div class="dash-quote">"The only bad workout is the one that didn't happen."</div>
+  </div>
+  <a href="{% url 'add_member' %}" class="btn btn-primary">＋ Add Member</a>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stat-grid">
+  <div class="stat-card">
+    <span class="stat-icon">👥</span>
+    <div class="stat-num">{{ member_count }}</div>
+    <div class="stat-label">Total Members</div>
+    <div class="stat-sub">All registered members</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">✅</span>
+    <div class="stat-num">{{ active_count }}</div>
+    <div class="stat-label">Active Members</div>
+    <div class="stat-sub">Currently active plans</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">⚠️</span>
+    <div class="stat-num">{{ expired_count }}</div>
+    <div class="stat-label">Expired Members</div>
+    <div class="stat-sub">Plans need renewal</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">💰</span>
+    <div class="stat-num">₹{{ total_revenue }}</div>
+    <div class="stat-label">Total Revenue</div>
+    <div class="stat-sub">This year's earnings</div>
+  </div>
+</div>
+
+<!-- SECOND ROW STATS -->
+<div class="stat-grid" style="margin-bottom:16px;">
+  <div class="stat-card">
+    <span class="stat-icon">📩</span>
+    <div class="stat-num">{{ enquiry_count }}</div>
+    <div class="stat-label">Enquiries</div>
+    <div class="stat-sub"><a href="{% url 'view_enquiry' %}" style="color:var(--orange);">View all →</a></div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">📋</span>
+    <div class="stat-num">{{ plan_count }}</div>
+    <div class="stat-label">Plans</div>
+    <div class="stat-sub"><a href="{% url 'view_plan' %}" style="color:var(--orange);">View all →</a></div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">🏋️</span>
+    <div class="stat-num">{{ equipment_count }}</div>
+    <div class="stat-label">Equipment</div>
+    <div class="stat-sub"><a href="{% url 'view_equipment' %}" style="color:var(--orange);">View all →</a></div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">📅</span>
+    <div class="stat-num">{{ expiring_members|length }}</div>
+    <div class="stat-label">Expiring Soon</div>
+    <div class="stat-sub">Within next 7 days</div>
+  </div>
+</div>
+
+<!-- BOTTOM GRID: CHART + ALERTS -->
+<div class="bottom-grid">
+
+  <!-- CHART -->
+  <div class="chart-wrap">
+    <div class="chart-tabs">
+      <button class="chart-tab active" onclick="showChart('members', this)">Members</button>
+      <button class="chart-tab" onclick="showChart('revenue', this)">Revenue</button>
+      <button class="chart-tab" onclick="showChart('equipment', this)">Equipment</button>
+    </div>
+    <canvas id="chartMembers" height="100"></canvas>
+    <canvas id="chartRevenue" height="100" style="display:none;"></canvas>
+    <canvas id="chartEquipment" height="100" style="display:none;"></canvas>
+  </div>
+
+  <!-- ALERTS -->
+  <div class="alerts-panel">
+    <div class="section-title">🔔 Alerts</div>
+
+    {% if expiring_members %}
+      {% for m in expiring_members %}
+      <div class="alert alert-warning" style="margin:0;">
+        ⏰ <strong>{{ m.name }}</strong> expires on {{ m.expiry_date }}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div style="color:var(--muted2);font-size:13px;">No expiring members this week ✅</div>
+    {% endif %}
+
+    {% if expired_members %}
+      <div class="section-title" style="margin-top:8px;">❌ Expired</div>
+      {% for m in expired_members|slice:":5" %}
+      <div class="alert alert-danger" style="margin:0;">
+        <strong>{{ m.name }}</strong> — <a href="{% url 'edit_member' m.id %}" style="color:var(--orange);">Renew →</a>
+      </div>
+      {% endfor %}
+      {% if expired_members|length > 5 %}
+      <div style="font-size:12px;color:var(--muted2);">+{{ expired_members|length|add:"-5" }} more expired</div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var labels   = {{ chart_labels|safe }};
+var members  = {{ chart_members|safe }};
+var revenue  = {{ chart_revenue|safe }};
+var equips   = {{ chart_equips|safe }};
+
+var chartCfg = function(data, label, color) {
+  return {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{ label: label, data: data,
+        backgroundColor: color + '33',
+        borderColor: color,
+        borderWidth: 2,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#888' }, grid: { color: '#242424' } },
+        y: { ticks: { color: '#888' }, grid: { color: '#242424' } }
+      }
+    }
+  };
+};
+
+// Revenue uses month labels
+var revChart = new Chart(document.getElementById('chartRevenue'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [{ label: 'Revenue ₹', data: revenue,
+      backgroundColor: '#22c55e33', borderColor: '#22c55e',
+      borderWidth: 2, borderRadius: 6 }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#888' }, grid: { color: '#242424' } },
+      y: { ticks: { color: '#888' }, grid: { color: '#242424' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartMembers'),   chartCfg(members, 'New Members',  '#ff6b00'));
+new Chart(document.getElementById('chartEquipment'), chartCfg(equips,  'Equipment',    '#3b82f6'));
+
+function showChart(type, btn) {
+  document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('chartMembers').style.display   = type === 'members'   ? '' : 'none';
+  document.getElementById('chartRevenue').style.display   = type === 'revenue'   ? '' : 'none';
+  document.getElementById('chartEquipment').style.display = type === 'equipment' ? '' : 'none';
+}
+</script>
+
+{% endblock %}
