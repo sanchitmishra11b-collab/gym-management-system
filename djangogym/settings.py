@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ── SECURITY ──
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-*&h=d2113+#%mgwmw(@$ec7vr26ffa_g_7sw+vc^wgu0^juv3c')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # ── EMAIL ──
