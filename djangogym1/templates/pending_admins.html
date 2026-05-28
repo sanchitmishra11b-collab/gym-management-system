@@ -3,62 +3,32 @@
 
 {% block extra_styles %}
 .ap-header {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px 32px; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
 }
 .ap-header::after {
-    content: 'ACCESS';
-    position: absolute;
-    right: -10px; top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 110px;
-    color: rgba(255,107,0,.04);
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: 4px;
+    content: 'ACCESS'; position: absolute; right: -10px; top: 50%;
+    transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif;
+    font-size: 110px; color: rgba(255,107,0,.04); pointer-events: none;
+    user-select: none; letter-spacing: 4px;
 }
 .ap-header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--orange), transparent);
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, var(--orange), transparent);
 }
-.ap-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    letter-spacing: 1px;
-    line-height: 1;
-}
+.ap-title { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 1px; line-height: 1; }
 .ap-title span { color: var(--orange); }
 .ap-subtitle { font-size: 12px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
 
-/* stats */
-.ap-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 28px;
-}
+.ap-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
 .ap-stat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 22px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 22px; text-align: center;
+    position: relative; overflow: hidden;
 }
-.ap-stat::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+.ap-stat::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
 .ap-stat.s-pending::before  { background: var(--orange); }
 .ap-stat.s-approved::before { background: var(--green); }
 .ap-stat.s-total::before    { background: #3b82f6; }
@@ -68,7 +38,6 @@
 .s-approved .s-num { color: var(--green); }
 .s-total    .s-num { color: #3b82f6; }
 
-/* section head */
 .sec-head {
     font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
     color: var(--muted); margin-bottom: 16px;
@@ -76,20 +45,11 @@
 }
 .sec-head::after { content:''; flex:1; height:1px; background:var(--border); }
 
-/* grid */
-.ap-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 14px;
-    margin-bottom: 36px;
-}
+.ap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; margin-bottom: 36px; }
 
-/* card */
 .ap-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden;
     transition: border-color .2s, transform .2s;
 }
 .ap-card:hover { border-color: #333; transform: translateY(-3px); }
@@ -103,7 +63,6 @@
 .stripe-e { background: linear-gradient(90deg, var(--red),    transparent); }
 
 .ap-card-body { padding: 20px; }
-
 .ap-card-top { display:flex; align-items:center; gap:13px; margin-bottom:16px; }
 .ap-avatar {
     width:46px; height:46px; border-radius:50%;
@@ -127,7 +86,7 @@
 .badge-e { background:rgba(255,58,58,.12); color:var(--red);    border:1px solid rgba(255,58,58,.25); }
 .badge-w { background:rgba(255,149,0,.12); color:#ff9500;       border:1px solid rgba(255,149,0,.25); }
 
-.bdot { width:6px; height:6px; border-radius:50%; animation:bdot 1.5s infinite; }
+.bdot { width:6px; height:6px; border-radius:50%; display:inline-block; animation:bdot 1.5s infinite; }
 .badge-p .bdot { background:var(--orange); }
 .badge-a .bdot { background:var(--green); animation:none; }
 .badge-e .bdot { background:var(--red); }
@@ -142,65 +101,41 @@
 .meta-key { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:2px; }
 .meta-val { font-size:13px; color:var(--muted2); }
 
-/* expiry bar */
-.expiry-bar-wrap {
-    margin-bottom: 14px;
-}
-.expiry-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 6px;
-}
-.expiry-bar-label .days-val { font-weight: 600; }
+.expiry-bar-wrap { margin-bottom: 14px; }
+.expiry-bar-label { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:6px; }
 .days-ok   { color: var(--green) !important; }
 .days-warn { color: #ff9500 !important; }
 .days-dead { color: var(--red) !important; }
-
-.expiry-bar-track {
-    height: 4px;
-    background: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-}
-.expiry-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width .6s ease;
-}
+.expiry-bar-track { height:4px; background:var(--border); border-radius:4px; overflow:hidden; }
+.expiry-bar-fill  { height:100%; border-radius:4px; transition:width .6s ease; }
 .fill-ok   { background: var(--green); }
 .fill-warn { background: #ff9500; }
-.fill-dead { background: var(--red); width: 100% !important; }
+.fill-dead { background: var(--red); }
 
-/* buttons */
 .btn-approve {
     display:block; width:100%; padding:11px;
     background:var(--orange); color:#000; border:none;
     border-radius:8px; font-size:13px; font-weight:700;
-    text-align:center; text-decoration:none;
-    cursor:pointer; transition:background .2s, transform .1s;
+    text-align:center; text-decoration:none; cursor:pointer;
+    transition:background .2s;
 }
-.btn-approve:hover  { background:#e05e00; color:#000; text-decoration:none; }
-.btn-approve:active { transform:scale(.98); }
+.btn-approve:hover { background:#e05e00; color:#000; text-decoration:none; }
 
 .btn-renew {
     display:block; width:100%; padding:11px;
     background:rgba(34,197,94,.1); color:var(--green);
     border:1px solid rgba(34,197,94,.3); border-radius:8px;
     font-size:13px; font-weight:700; text-align:center;
-    text-decoration:none; cursor:pointer;
-    transition:background .2s, border-color .2s;
+    text-decoration:none; cursor:pointer; transition:background .2s;
 }
-.btn-renew:hover { background:rgba(34,197,94,.18); border-color:var(--green); color:var(--green); text-decoration:none; }
+.btn-renew:hover { background:rgba(34,197,94,.18); color:var(--green); text-decoration:none; }
 
 .btn-reactivate {
     display:block; width:100%; padding:11px;
     background:rgba(255,58,58,.1); color:var(--red);
     border:1px solid rgba(255,58,58,.3); border-radius:8px;
     font-size:13px; font-weight:700; text-align:center;
-    text-decoration:none; cursor:pointer;
-    transition:background .2s;
+    text-decoration:none; cursor:pointer; transition:background .2s;
 }
 .btn-reactivate:hover { background:rgba(255,58,58,.18); color:var(--red); text-decoration:none; }
 
@@ -209,11 +144,10 @@
     background:transparent; color:var(--muted);
     border:1px solid var(--border); border-radius:8px;
     font-size:12px; text-align:center; text-decoration:none;
-    cursor:pointer; transition:border-color .2s, color .2s, background .2s;
+    cursor:pointer; transition:border-color .2s, color .2s;
 }
-.btn-reject:hover { border-color:rgba(255,58,58,.5); color:#ff6b6b; background:rgba(255,58,58,.06); text-decoration:none; }
+.btn-reject:hover { border-color:rgba(255,58,58,.5); color:#ff6b6b; text-decoration:none; }
 
-/* empty */
 .ap-empty {
     text-align:center; padding:52px 20px;
     background:var(--card); border:1px dashed var(--border);
@@ -221,9 +155,12 @@
 }
 .ap-empty-text { color:var(--muted); font-size:14px; }
 
+.renew-btns { display:flex; gap:6px; flex-wrap:wrap; }
+.renew-btns a { flex:1; text-align:center; font-size:11px; padding:9px 6px; }
+
 @media(max-width:600px){
-    .ap-stats{grid-template-columns:1fr;}
-    .ap-title{font-size:32px;}
+    .ap-stats { grid-template-columns:1fr; }
+    .ap-title { font-size:32px; }
 }
 {% endblock %}
 
@@ -257,7 +194,7 @@
     </div>
 </div>
 
-<!-- PENDING -->
+<!-- PENDING SECTION -->
 <div class="sec-head">⏳ Pending Requests</div>
 
 {% if pending %}
@@ -266,6 +203,7 @@
   <div class="ap-card is-pending">
     <div class="stripe stripe-p"></div>
     <div class="ap-card-body">
+
       <div class="ap-card-top">
         <div class="ap-avatar av-p">{{ p.user.username|first|upper }}</div>
         <div style="min-width:0;">
@@ -273,7 +211,9 @@
           <div class="ap-email">{{ p.user.email }}</div>
         </div>
       </div>
+
       <div class="ap-badge badge-p"><span class="bdot"></span> Awaiting Approval</div>
+
       <div class="ap-meta">
         <div>
           <div class="meta-key">Registered</div>
@@ -284,192 +224,152 @@
           <div class="meta-val">#{{ p.user.id }}</div>
         </div>
       </div>
+
       <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">
         Approving grants <strong style="color:var(--orange);">30 days</strong> of access from today.
       </div>
+
       <a href="{% url 'approve_admin' p.user.id %}" class="btn-approve">✓ Approve — Grant 30 Days</a>
       <a href="{% url 'reject_admin' p.user.id %}" class="btn-reject"
          onclick="return confirm('Remove {{ p.user.username }}? This cannot be undone.')">✕ Reject & Remove</a>
+
     </div>
   </div>
   {% endfor %}
 </div>
 {% else %}
-<div class="ap-empty"><div class="ap-empty-text">✅ No pending requests — all caught up!</div></div>
+<div class="ap-empty">
+  <div class="ap-empty-text">✅ No pending requests — all caught up!</div>
+</div>
 {% endif %}
 
-<!-- APPROVED -->
+<!-- APPROVED SECTION -->
 <div class="sec-head">✓ Approved Admins</div>
 
 {% if approved %}
 <div class="ap-grid">
   {% for a in approved %}
 
-{% if a.expired %}
+    {% if a.expired %}
+    <div class="ap-card is-expired">
+      <div class="stripe stripe-e"></div>
+    {% else %}
+    <div class="ap-card is-approved">
+      <div class="stripe stripe-a"></div>
+    {% endif %}
 
-<div class="ap-card is-expired">
-    <div class="stripe stripe-e"></div>
+      <div class="ap-card-body">
 
-{% elif a.days_remaining is not None and a.days_remaining <= 7 %}
-
-<div class="ap-card is-approved">
-    <div class="stripe stripe-a"></div>
-
-{% else %}
-
-<div class="ap-card is-approved">
-    <div class="stripe stripe-a"></div>
-
-{% endif %}
-
-{% endfor %}
-
-  
-   
-    <div class="ap-card-body">
-
-      <div class="ap-card-top">
-        <div class="ap-avatar {{ av_class }}">{{ a.user.username|first|upper }}</div>
-        <div style="min-width:0;">
-          <div class="ap-name">{{ a.user.username }}</div>
-          <div class="ap-email">{{ a.user.email }}</div>
+        <div class="ap-card-top">
+          {% if a.expired %}
+          <div class="ap-avatar av-e">{{ a.user.username|first|upper }}</div>
+          {% elif a.days_remaining is not None and a.days_remaining <= 7 %}
+          <div class="ap-avatar av-e">{{ a.user.username|first|upper }}</div>
+          {% else %}
+          <div class="ap-avatar av-a">{{ a.user.username|first|upper }}</div>
+          {% endif %}
+          <div style="min-width:0;">
+            <div class="ap-name">{{ a.user.username }}</div>
+            <div class="ap-email">{{ a.user.email }}</div>
+          </div>
         </div>
-      </div>
 
-      <div class="ap-badge {{ badge_class }}"><span class="bdot"></span> {{ badge_text }}</div>
+        {% if a.expired %}
+        <div class="ap-badge badge-e"><span class="bdot"></span> Expired</div>
+        {% elif a.days_remaining is not None and a.days_remaining <= 7 %}
+        <div class="ap-badge badge-w"><span class="bdot"></span> Expiring Soon</div>
+        {% else %}
+        <div class="ap-badge badge-a"><span class="bdot"></span> Active</div>
+        {% endif %}
 
-      <div class="ap-meta">
-        <div>
-          <div class="meta-key">Joined</div>
-          <div class="meta-val">{{ a.user.date_joined|date:"d M Y" }}</div>
+        <div class="ap-meta">
+          <div>
+            <div class="meta-key">Joined</div>
+            <div class="meta-val">{{ a.user.date_joined|date:"d M Y" }}</div>
+          </div>
+          <div>
+            <div class="meta-key">Last Login</div>
+            <div class="meta-val">{{ a.user.last_login|date:"d M Y"|default:"Never" }}</div>
+          </div>
+          <div>
+            <div class="meta-key">Access Until</div>
+            <div class="meta-val">
+              {% if a.access_expires_on %}{{ a.access_expires_on|date:"d M Y" }}
+              {% else %}<span style="color:var(--muted);">Not set</span>{% endif %}
+            </div>
+          </div>
+          <div>
+            <div class="meta-key">Days Left</div>
+            <div class="meta-val {% if a.days_remaining is None %}{% elif a.days_remaining <= 0 %}days-dead{% elif a.days_remaining <= 7 %}days-warn{% else %}days-ok{% endif %}">
+              {% if a.days_remaining is None %}—
+              {% elif a.days_remaining <= 0 %}Expired
+              {% else %}{{ a.days_remaining }} days{% endif %}
+            </div>
+          </div>
         </div>
-        <div>
-          <div class="meta-key">Last Login</div>
-          <div class="meta-val">{{ a.user.last_login|date:"d M Y"|default:"Never" }}</div>
-        </div>
-        <div>
-          <div class="meta-key">Access Until</div>
-          <div class="meta-val">
-            {% if a.access_expires_on %}
-              {{ a.access_expires_on|date:"d M Y" }}
+
+        <!-- EXPIRY BAR -->
+        {% if a.access_expires_on %}
+        <div class="expiry-bar-wrap">
+          <div class="expiry-bar-label">
+            <span>Access period</span>
+            <span class="{% if a.days_remaining <= 0 %}days-dead{% elif a.days_remaining <= 7 %}days-warn{% else %}days-ok{% endif %}">
+              {% if a.days_remaining <= 0 %}Expired{% else %}{{ a.days_remaining }} days left{% endif %}
+            </span>
+          </div>
+          <div class="expiry-bar-track">
+            {% if a.days_remaining <= 0 %}
+              <div class="expiry-bar-fill fill-dead" style="width:100%;"></div>
+            {% elif a.days_remaining <= 7 %}
+              <div class="expiry-bar-fill fill-warn" style="width:{{ a.days_remaining }}0%;max-width:100%;"></div>
             {% else %}
-              <span style="color:var(--muted);">Not set</span>
+              <div class="expiry-bar-fill fill-ok" style="width:{% widthratio a.days_remaining 30 100 %}%;max-width:100%;"></div>
             {% endif %}
           </div>
         </div>
-        <div>
-          <div class="meta-key">Days Left</div>
-          <div class="meta-val
-            {% if a.days_remaining is None %}{% elif a.days_remaining <= 0 %} days-dead{% elif a.days_remaining <= 7 %} days-warn{% else %} days-ok{% endif %}">
-            {% if a.days_remaining is None %}—
-            {% elif a.days_remaining <= 0 %}Expired
-            {% else %}{{ a.days_remaining }} days{% endif %}
-          </div>
-        </div>
-      </div>
+        {% endif %}
 
-      <!-- EXPIRY PROGRESS BAR -->
-      {% if a.access_expires_on %}
-      <div class="expiry-bar-wrap">
-        <div class="expiry-bar-label">
-          <span>Access period</span>
-          <span class="days-val
-            {% if a.days_remaining <= 0 %}days-dead{% elif a.days_remaining <= 7 %}days-warn{% else %}days-ok{% endif %}">
-            {% if a.days_remaining <= 0 %}Expired{% else %}{{ a.days_remaining }} days left{% endif %}
-          </span>
-        </div>
-        <div class="expiry-bar-track">
-          {% if a.days_remaining <= 0 %}
-            <div class="expiry-bar-fill fill-dead" style="width:100%;"></div>
-          {% elif a.days_remaining <= 7 %}
-            <div class="expiry-bar-fill fill-warn" style="width:{{ a.days_remaining|add:'0' }}0%;max-width:100%;"></div>
+        <!-- ACTION BUTTONS -->
+        <div class="renew-btns">
+          {% if a.expired %}
+            <a href="{% url 'renew_admin' a.user.id %}?plan=monthly"
+               class="btn-reactivate"
+               onclick="return confirm('Reactivate {{ a.user.username }} for 30 days?')">🔄 +30 Days</a>
+            <a href="{% url 'renew_admin' a.user.id %}?plan=quarterly"
+               class="btn-reactivate"
+               style="background:rgba(59,130,246,.1);color:#3b82f6;border-color:rgba(59,130,246,.3);"
+               onclick="return confirm('Reactivate {{ a.user.username }} for 90 days?')">🔄 +90 Days</a>
+            <a href="{% url 'renew_admin' a.user.id %}?plan=yearly"
+               class="btn-reactivate"
+               style="background:rgba(34,197,94,.1);color:#22c55e;border-color:rgba(34,197,94,.3);"
+               onclick="return confirm('Reactivate {{ a.user.username }} for 1 year?')">🔄 +1 Year</a>
           {% else %}
-            <div class="expiry-bar-fill fill-ok" style="width:{% widthratio a.days_remaining 30 100 %}%;"></div>
+            <a href="{% url 'renew_admin' a.user.id %}?plan=monthly"
+               class="btn-renew"
+               onclick="return confirm('Renew {{ a.user.username }} for 30 days?')">+30 Days</a>
+            <a href="{% url 'renew_admin' a.user.id %}?plan=quarterly"
+               class="btn-renew"
+               style="background:rgba(59,130,246,.1);color:#3b82f6;border-color:rgba(59,130,246,.3);"
+               onclick="return confirm('Renew {{ a.user.username }} for 90 days?')">+90 Days</a>
+            <a href="{% url 'renew_admin' a.user.id %}?plan=yearly"
+               class="btn-renew"
+               style="background:rgba(34,197,94,.1);color:#22c55e;border-color:rgba(34,197,94,.3);"
+               onclick="return confirm('Renew {{ a.user.username }} for 1 year?')">+1 Year</a>
           {% endif %}
         </div>
+
+        <a href="{% url 'reject_admin' a.user.id %}" class="btn-reject"
+           onclick="return confirm('Remove {{ a.user.username }} permanently?')">✕ Revoke Access</a>
+
       </div>
-      {% endif %}
+    </div>
 
-      <!-- ACTION BUTTONS -->
-<!-- ACTION BUTTONS -->
-
-{% if a.expired %}
-
-<div style="display:flex;gap:6px;flex-wrap:wrap;">
-
-    <!-- 30 DAYS -->
-    <a href="{% url 'renew_admin' a.user.id %}?plan=monthly"
-       class="btn-reactivate"
-       style="flex:1;text-align:center;font-size:11px;"
-       onclick="return confirm('Reactivate {{ a.user.username }} for 30 days?')">
-        🔄 +30 Days
-    </a>
-
-    <!-- 90 DAYS -->
-    <a href="{% url 'renew_admin' a.user.id %}?plan=quarterly"
-       class="btn-reactivate"
-       style="flex:1;text-align:center;font-size:11px;
-              background:rgba(59,130,246,.1);
-              color:#3b82f6;
-              border-color:rgba(59,130,246,.3);"
-       onclick="return confirm('Reactivate {{ a.user.username }} for 90 days?')">
-        🔄 +90 Days
-    </a>
-
-    <!-- 1 YEAR -->
-    <a href="{% url 'renew_admin' a.user.id %}?plan=yearly"
-       class="btn-reactivate"
-       style="flex:1;text-align:center;font-size:11px;
-              background:rgba(34,197,94,.1);
-              color:#22c55e;
-              border-color:rgba(34,197,94,.3);"
-       onclick="return confirm('Reactivate {{ a.user.username }} for 1 year?')">
-        🔄 +1 Year
-    </a>
-
+  {% endfor %}
 </div>
-
 {% else %}
-
-<div style="display:flex;gap:6px;flex-wrap:wrap;">
-
-    <!-- 30 DAYS -->
-    <a href="{% url 'renew_admin' a.user.id %}?plan=monthly"
-       class="btn-renew"
-       style="flex:1;text-align:center;font-size:11px;"
-       onclick="return confirm('Renew {{ a.user.username }} for 30 days?')">
-        +30 Days
-    </a>
-
-    <!-- 90 DAYS -->
-    <a href="{% url 'renew_admin' a.user.id %}?plan=quarterly"
-       class="btn-renew"
-       style="flex:1;text-align:center;font-size:11px;
-              background:rgba(59,130,246,.1);
-              color:#3b82f6;
-              border-color:rgba(59,130,246,.3);"
-       onclick="return confirm('Renew {{ a.user.username }} for 90 days?')">
-        +90 Days
-    </a>
-
-    <!-- 1 YEAR -->
-    <a href="{% url 'renew_admin' a.user.id %}?plan=yearly"
-       class="btn-renew"
-       style="flex:1;text-align:center;font-size:11px;
-              background:rgba(34,197,94,.1);
-              color:#22c55e;
-              border-color:rgba(34,197,94,.3);"
-       onclick="return confirm('Renew {{ a.user.username }} for 1 year?')">
-        +1 Year
-    </a>
-
+<div class="ap-empty">
+  <div class="ap-empty-text">No approved admins yet.</div>
 </div>
-
 {% endif %}
 
-<!-- REMOVE ACCESS -->
-<a href="{% url 'reject_admin' a.user.id %}"
-   class="btn-reject"
-   onclick="return confirm('Remove {{ a.user.username }} permanently?')">
-    ✕ Revoke Access
-</a>
+{% endblock %}
