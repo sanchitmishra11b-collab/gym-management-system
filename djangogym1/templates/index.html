@@ -12,118 +12,32 @@
 
 /* ───────── TABLET ───────── */
 @media (max-width:900px){
-
-    .stat-grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:12px;
-    }
-
-    .bottom-grid{
-        grid-template-columns:1fr;
-    }
-
-    .chart-wrap{
-        grid-column:span 1;
-    }
+    .stat-grid{ grid-template-columns:repeat(2,1fr); gap:12px; }
+    .bottom-grid{ grid-template-columns:1fr; }
+    .chart-wrap{ grid-column:span 1; }
 }
 
 /* ───────── MOBILE ───────── */
 @media (max-width:576px){
-
-    .stat-grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:8px;
-    }
-
-    .stat-card{
-        padding:14px 12px;
-        border-radius:10px;
-    }
-
-    .stat-card .stat-num{
-        font-size:28px;
-    }
-
-    .stat-card .stat-icon{
-        font-size:18px;
-        margin-bottom:6px;
-    }
-
-    .stat-card .stat-label{
-        font-size:9px;
-        letter-spacing:1px;
-    }
-
-    .stat-card .stat-sub{
-        font-size:10px;
-        margin-top:6px;
-        padding-top:6px;
-    }
-
-    .dash-header{
-        padding:14px;
-        flex-direction:column;
-        gap:10px;
-    }
-
-    .dash-header::after{
-        display:none;
-    }
-
-    .dash-hello{
-        font-size:22px;
-    }
-
-    .dash-quote{
-        font-size:11px;
-    }
-
-    .dash-header .btn{
-        width:100%;
-        text-align:center;
-    }
-
-    .bottom-grid{
-        grid-template-columns:1fr;
-        gap:12px;
-    }
-
-    .chart-wrap{
-        grid-column:span 1;
-        padding:14px;
-    }
-
-    .alerts-panel{
-        padding:14px;
-        gap:8px;
-    }
-
-    .chart-tabs{
-        width:100%;
-        justify-content:center;
-    }
-
-    .chart-tab{
-        font-size:11px;
-        padding:5px 14px;
-    }
-
-    .voice-btn{
-        width:46px;
-        height:46px;
-        font-size:18px;
-        bottom:14px;
-        right:14px;
-    }
-
-    .voice-help{
-        display:none;
-    }
-
-    .voice-status{
-        right:14px;
-        bottom:70px;
-    }
+    .stat-grid{ grid-template-columns:repeat(2,1fr); gap:8px; }
+    .stat-card{ padding:14px 12px; border-radius:10px; }
+    .stat-card .stat-num{ font-size:28px; }
+    .stat-card .stat-icon{ font-size:18px; margin-bottom:6px; }
+    .stat-card .stat-label{ font-size:9px; letter-spacing:1px; }
+    .stat-card .stat-sub{ font-size:10px; margin-top:6px; padding-top:6px; }
+    .dash-header{ padding:14px; flex-direction:column; gap:10px; }
+    .dash-header::after{ display:none; }
+    .dash-hello{ font-size:22px; }
+    .dash-quote{ font-size:11px; }
+    .dash-header .btn{ width:100%; text-align:center; }
+    .bottom-grid{ grid-template-columns:1fr; gap:12px; }
+    .chart-wrap{ grid-column:span 1; padding:14px; }
+    .alerts-panel{ padding:14px; gap:8px; }
+    .chart-tabs{ width:100%; justify-content:center; }
+    .chart-tab{ font-size:11px; padding:5px 14px; }
+    .voice-btn{ width:46px; height:46px; font-size:18px; bottom:14px; right:14px; }
+    .voice-help{ display:none; }
+    .voice-status{ right:14px; bottom:70px; }
 }
 
 /* ───────── STAT CARD ───────── */
@@ -137,59 +51,18 @@
     transition:border-color .25s, transform .25s;
     cursor:default;
 }
-
-.stat-card:hover{
-    border-color:var(--orange);
-    transform:translateY(-3px);
-}
-
+.stat-card:hover{ border-color:var(--orange); transform:translateY(-3px); }
 .stat-card::before{
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:2px;
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
     background:linear-gradient(90deg,var(--orange),transparent);
 }
-
-.stat-card .stat-icon{
-    font-size:28px;
-    margin-bottom:12px;
-    display:block;
-}
-
-.stat-card .stat-num{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:44px;
-    color:var(--orange);
-    line-height:1;
-    letter-spacing:1px;
-}
-
-.stat-card .stat-label{
-    font-size:11px;
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:2px;
-    margin-top:4px;
-}
-
-.stat-card .stat-sub{
-    font-size:12px;
-    color:var(--muted2);
-    margin-top:10px;
-    padding-top:10px;
-    border-top:1px solid var(--border);
-}
+.stat-card .stat-icon{ font-size:28px; margin-bottom:12px; display:block; }
+.stat-card .stat-num{ font-family:'Bebas Neue',sans-serif; font-size:44px; color:var(--orange); line-height:1; letter-spacing:1px; }
+.stat-card .stat-label{ font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:2px; margin-top:4px; }
+.stat-card .stat-sub{ font-size:12px; color:var(--muted2); margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
 
 /* ───────── BOTTOM GRID ───────── */
-.bottom-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:16px;
-    margin-top:16px;
-}
+.bottom-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:16px; }
 
 /* ───────── CHART WRAP ───────── */
 .chart-wrap{
@@ -200,139 +73,68 @@
     padding:24px;
 }
 
+/* ───────── CHART CANVAS FIX ───────── */
+.chart-container{
+    position:relative;
+    width:100%;
+    height:280px;
+}
+@media (max-width:576px){
+    .chart-container{ height:220px; }
+}
+
 /* ───────── CHART TABS ───────── */
 .chart-tabs{
-    display:flex;
-    gap:4px;
-    margin-bottom:20px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:4px;
-    width:fit-content;
+    display:flex; gap:4px; margin-bottom:20px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:8px; padding:4px; width:fit-content;
 }
-
 .chart-tab{
-    padding:6px 16px;
-    border-radius:6px;
-    font-size:12px;
-    font-weight:500;
-    color:var(--muted2);
-    cursor:pointer;
-    transition:background .2s,color .2s;
-    border:none;
-    background:none;
+    padding:6px 16px; border-radius:6px; font-size:12px;
+    font-weight:500; color:var(--muted2); cursor:pointer;
+    transition:background .2s,color .2s; border:none; background:none;
 }
-
-.chart-tab.active{
-    background:var(--orange);
-    color:#000;
-    font-weight:600;
-}
+.chart-tab.active{ background:var(--orange); color:#000; font-weight:600; }
 
 /* ───────── ALERTS ───────── */
 .alerts-panel{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:24px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+    background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:12px;
 }
 
 /* ───────── WELCOME HEADER ───────── */
 .dash-header{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:24px 28px;
-    margin-bottom:24px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    position:relative;
-    overflow:hidden;
+    background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:24px 28px; margin-bottom:24px;
+    display:flex; align-items:center; justify-content:space-between;
+    position:relative; overflow:hidden;
 }
-
 .dash-header::after{
-    content:'GYMOS';
-    position:absolute;
-    right:-20px;
-    top:50%;
-    transform:translateY(-50%);
-    font-family:'Bebas Neue',sans-serif;
-    font-size:120px;
-    color:rgba(255,107,0,.04);
-    letter-spacing:4px;
+    content:'GYMOS'; position:absolute; right:-20px; top:50%;
+    transform:translateY(-50%); font-family:'Bebas Neue',sans-serif;
+    font-size:120px; color:rgba(255,107,0,.04); letter-spacing:4px;
 }
-
-.dash-hello{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:36px;
-    letter-spacing:1px;
-    line-height:1;
-}
-
-.dash-hello span{
-    color:var(--orange);
-}
-
-.dash-quote{
-    font-size:13px;
-    color:var(--muted2);
-    margin-top:6px;
-    font-style:italic;
-}
+.dash-hello{ font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:1px; line-height:1; }
+.dash-hello span{ color:var(--orange); }
+.dash-quote{ font-size:13px; color:var(--muted2); margin-top:6px; font-style:italic; }
 
 /* ───────── VOICE BUTTON ───────── */
 .voice-btn{
-    position:fixed;
-    bottom:28px;
-    right:28px;
-    width:58px;
-    height:58px;
-    border:none;
-    border-radius:50%;
-    background:var(--orange);
-    color:#000;
-    font-size:24px;
-    cursor:pointer;
-    z-index:999;
-    transition:transform .2s;
+    position:fixed; bottom:28px; right:28px; width:58px; height:58px;
+    border:none; border-radius:50%; background:var(--orange); color:#000;
+    font-size:24px; cursor:pointer; z-index:999; transition:transform .2s;
 }
-
-.voice-btn:hover{
-    transform:scale(1.08);
-}
-
+.voice-btn:hover{ transform:scale(1.08); }
 .voice-status{
-    position:fixed;
-    bottom:96px;
-    right:28px;
-    background:var(--card);
-    border:1px solid var(--border);
-    color:var(--text);
-    padding:10px 16px;
-    border-radius:10px;
-    font-size:13px;
-    display:none;
-    z-index:999;
+    position:fixed; bottom:96px; right:28px; background:var(--card);
+    border:1px solid var(--border); color:var(--text); padding:10px 16px;
+    border-radius:10px; font-size:13px; display:none; z-index:999;
 }
-
 .voice-help{
-    position:fixed;
-    bottom:72px;
-    right:96px;
-    width:170px;
-    background:var(--card);
-    border:1px solid var(--border);
-    color:var(--muted2);
-    padding:14px;
-    border-radius:12px;
-    font-size:12px;
-    line-height:1.8;
-    z-index:998;
+    position:fixed; bottom:72px; right:96px; width:170px;
+    background:var(--card); border:1px solid var(--border);
+    color:var(--muted2); padding:14px; border-radius:12px;
+    font-size:12px; line-height:1.8; z-index:998;
 }
 
 {% endblock %}
@@ -348,7 +150,7 @@
   <a href="{% url 'add_member' %}" class="btn btn-primary">＋ Add Member</a>
 </div>
 
-<!-- STAT CARDS -->
+<!-- STAT CARDS ROW 1 -->
 <div class="stat-grid">
   <div class="stat-card">
     <span class="stat-icon">👥</span>
@@ -376,7 +178,7 @@
   </div>
 </div>
 
-<!-- SECOND ROW STATS -->
+<!-- STAT CARDS ROW 2 -->
 <div class="stat-grid" style="margin-bottom:16px;">
   <div class="stat-card">
     <span class="stat-icon">📩</span>
@@ -414,9 +216,16 @@
       <button class="chart-tab" onclick="showChart('revenue', this)">Revenue</button>
       <button class="chart-tab" onclick="showChart('equipment', this)">Equipment</button>
     </div>
-    <canvas id="chartMembers" height="100"></canvas>
-    <canvas id="chartRevenue" height="100" style="display:none;"></canvas>
-    <canvas id="chartEquipment" height="100" style="display:none;"></canvas>
+
+    <div class="chart-container" id="wrapMembers">
+      <canvas id="chartMembers"></canvas>
+    </div>
+    <div class="chart-container" id="wrapRevenue" style="display:none;">
+      <canvas id="chartRevenue"></canvas>
+    </div>
+    <div class="chart-container" id="wrapEquipment" style="display:none;">
+      <canvas id="chartEquipment"></canvas>
+    </div>
   </div>
 
   <!-- ALERTS -->
@@ -448,39 +257,47 @@
 
 </div>
 
+<!-- VOICE BUTTON -->
+<button class="voice-btn" id="voiceBtn" title="Voice Command">🎤</button>
+<div class="voice-status" id="voiceStatus">Listening...</div>
+<div class="voice-help">
+  Try saying:<br>
+  "add member"<br>
+  "view members"<br>
+  "attendance"<br>
+  "view plans"
+</div>
+
 <!-- CHART JS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-var labels   = {{ chart_labels|safe }};
-var members  = {{ chart_members|safe }};
-var revenue  = {{ chart_revenue|safe }};
-var equips   = {{ chart_equips|safe }};
+var labels  = {{ chart_labels|safe }};
+var members = {{ chart_members|safe }};
+var revenue = {{ chart_revenue|safe }};
+var equips  = {{ chart_equips|safe }};
 
-var chartCfg = function(data, label, color) {
-  return {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{ label: label, data: data,
-        backgroundColor: color + '33',
-        borderColor: color,
-        borderWidth: 2,
-        borderRadius: 6,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#888' }, grid: { color: '#242424' } },
-        y: { ticks: { color: '#888' }, grid: { color: '#242424' } }
-      }
-    }
-  };
+var commonOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false } },
+  scales: {
+    x: { ticks: { color: '#888', font: { size: 11 } }, grid: { color: '#242424' } },
+    y: { ticks: { color: '#888', font: { size: 11 } }, grid: { color: '#242424' } }
+  }
 };
 
-// Revenue uses month labels
-var revChart = new Chart(document.getElementById('chartRevenue'), {
+new Chart(document.getElementById('chartMembers'), {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{ label: 'New Members', data: members,
+      backgroundColor: '#ff6b0033', borderColor: '#ff6b00',
+      borderWidth: 2, borderRadius: 6 }]
+  },
+  options: JSON.parse(JSON.stringify(commonOptions))
+});
+
+new Chart(document.getElementById('chartRevenue'), {
   type: 'bar',
   data: {
     labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -488,26 +305,59 @@ var revChart = new Chart(document.getElementById('chartRevenue'), {
       backgroundColor: '#22c55e33', borderColor: '#22c55e',
       borderWidth: 2, borderRadius: 6 }]
   },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { color: '#888' }, grid: { color: '#242424' } },
-      y: { ticks: { color: '#888' }, grid: { color: '#242424' } }
-    }
-  }
+  options: JSON.parse(JSON.stringify(commonOptions))
 });
 
-new Chart(document.getElementById('chartMembers'),   chartCfg(members, 'New Members',  '#ff6b00'));
-new Chart(document.getElementById('chartEquipment'), chartCfg(equips,  'Equipment',    '#3b82f6'));
+new Chart(document.getElementById('chartEquipment'), {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{ label: 'Equipment', data: equips,
+      backgroundColor: '#3b82f633', borderColor: '#3b82f6',
+      borderWidth: 2, borderRadius: 6 }]
+  },
+  options: JSON.parse(JSON.stringify(commonOptions))
+});
 
 function showChart(type, btn) {
   document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('chartMembers').style.display   = type === 'members'   ? '' : 'none';
-  document.getElementById('chartRevenue').style.display   = type === 'revenue'   ? '' : 'none';
-  document.getElementById('chartEquipment').style.display = type === 'equipment' ? '' : 'none';
+  document.getElementById('wrapMembers').style.display   = type === 'members'   ? '' : 'none';
+  document.getElementById('wrapRevenue').style.display   = type === 'revenue'   ? '' : 'none';
+  document.getElementById('wrapEquipment').style.display = type === 'equipment' ? '' : 'none';
 }
+
+// Voice button
+var voiceBtn    = document.getElementById('voiceBtn');
+var voiceStatus = document.getElementById('voiceStatus');
+voiceBtn.addEventListener('click', function() {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert('Voice not supported. Use Chrome.');
+    return;
+  }
+  var r = new webkitSpeechRecognition();
+  r.lang = 'en-IN';
+  voiceStatus.style.display = 'block';
+  voiceStatus.textContent = 'Listening...';
+  r.start();
+  r.onresult = function(e) {
+    var cmd = e.results[0][0].transcript.toLowerCase();
+    voiceStatus.style.display = 'none';
+    if      (cmd.includes('add member'))    window.location = "{% url 'add_member' %}";
+    else if (cmd.includes('member'))        window.location = "{% url 'view_member' %}";
+    else if (cmd.includes('attendance'))    window.location = "{% url 'attendance' %}";
+    else if (cmd.includes('plan'))          window.location = "{% url 'view_plan' %}";
+    else if (cmd.includes('equipment'))     window.location = "{% url 'view_equipment' %}";
+    else if (cmd.includes('enquiry'))       window.location = "{% url 'view_enquiry' %}";
+    else if (cmd.includes('dashboard'))     window.location = "{% url 'home' %}";
+    else {
+      voiceStatus.style.display = 'block';
+      voiceStatus.textContent = 'Not recognized: ' + cmd;
+      setTimeout(function(){ voiceStatus.style.display='none'; }, 2000);
+    }
+  };
+  r.onerror = function() { voiceStatus.style.display = 'none'; };
+});
 </script>
 
 {% endblock %}
